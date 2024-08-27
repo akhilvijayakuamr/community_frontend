@@ -1,0 +1,7 @@
+.input-email:focus {
+    border-color: rgb(255, 255, 255);
+    border-width: 2px;
+    background-color: transparent;
+    color: white;
+    font-weight: 600;
+  }
