@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Logo from '../../../assets/images/AssureTech_transparent-.png'
 import { UseDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearError } from '../../../redux/Slice/authSlice';
-import { verifyOtpAsync } from '../../../redux/Actions/authActions';
+import { verifyOtpAsync, resendOTP } from '../../../redux/Actions/authActions';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { setError } from '../../../redux/Slice/authSlice';
 import { RootState } from '../../../redux/Store/store';
+import { Alert } from '@mui/material';
 
 
 export default function OtpRegister() {
@@ -15,15 +17,55 @@ export default function OtpRegister() {
     const authError = useSelector((state: RootState)=>state.auth.error)
     const email = useSelector((state: RootState)=>state.auth.email)
     const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
+    const [reTime, setReTime] = useState<number>(60);
+    const [canResend, setCanResend] = useState<boolean>(false);
 
 
-    const handleVerify = async (e: React.FormEvent<HTMLFormElement>) =>{
+
+
+    useEffect(() => {
+      if (authError) {
+        const timer = setTimeout(() => {
+          dispatch(setError(''));
+        }, 10000); 
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    }, [authError, dispatch]);
+
+
+    useEffect(() => {
+      let intervalId:number|undefined;
+  
+      if (!canResend) { 
+        intervalId = setInterval(() => {
+          setReTime((prevTime) => (prevTime === 0 ? 0 : prevTime - 1));
+          if (reTime === 0) {
+            setCanResend(true); 
+          }
+        }, 1000);
+      }
+      return () => clearInterval(intervalId);
+   }, [canResend, reTime]); 
+
+
+    const handleVerify = async (e: React.MouseEvent<HTMLButtonElement>) =>{
       e.preventDefault();
       dispatch(clearError());
       const OTP: string = otp.join('');
       await dispatch(verifyOtpAsync (email, OTP, navigate) as any);
-      console.log(OTP)
-      console.log(email)
+    }
+
+    const sendOTP = async (e: React.MouseEvent<HTMLButtonElement>) =>{
+      e.preventDefault();
+      try {
+        await dispatch(resendOTP(email) as any);
+        setReTime(60);
+        setCanResend(false);
+      } catch (error) {
+        console.error("Resend error:", error);
+      }
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -35,7 +77,6 @@ export default function OtpRegister() {
         
         
   
-        // Move focus to the next input if the current one is filled
         if (value.length === 1 && index < otp.length - 1) {
           (document.getElementById(`otp-${index + 1}`) as HTMLInputElement).focus();
         }
@@ -53,6 +94,13 @@ export default function OtpRegister() {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-950">
         <div className="bg-gray-950 p-8 rounded-lg shadow-lg w-full max-w-sm">
+          
+        { authError&& (
+        <Alert variant="filled" severity="error" sx={{ width: '100%'}} >
+        {authError}
+      </Alert>
+      )}
+        
         <div className="flex justify-center mb-1 ">
               <img
                 src={Logo}
@@ -79,6 +127,12 @@ export default function OtpRegister() {
           <button  onClick={handleVerify}  className="mt-6 w-full bg-white text-black py-2 px-4 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700">
             Submit
           </button>
+
+          {canResend && (
+            <button  onClick={sendOTP}  className="mt-6 w-full bg-red-600 text-black py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-gray-700">
+            Resend OTP ({reTime})
+            </button>
+          )}
         </div>
       </div>
     );

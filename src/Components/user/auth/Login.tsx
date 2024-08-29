@@ -2,11 +2,13 @@ import React,{useEffect, useState} from 'react'
 import Logo from '../../../assets/images/AssureTech_transparent-.png'
 import { UseDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { setToken } from '../../../redux/Slice/authSlice';
+import { setToken, setError } from '../../../redux/Slice/authSlice';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/Store/store';
 import { login } from '../../../redux/Actions/authActions';
+import { Alert } from '@mui/material';
+
 
 
 
@@ -21,10 +23,24 @@ export default function Login() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const error = useSelector((state: RootState) => state.auth.error);
+    const authError = useSelector((state: RootState) => state.auth.error);
     const token = useSelector((state: RootState) => state.auth.token);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
+
+
+    useEffect(() => {
+      if (authError) {
+        const timer = setTimeout(() => {
+          dispatch(setError(''));
+        }, 10000); 
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    }, [authError, dispatch]);
+
   
     
      
@@ -34,7 +50,7 @@ export default function Login() {
         try{
           await dispatch(login(email,password,navigate) as any);
         }catch{
-          console.log("Login Error", error)
+          console.log("Login Error", authError)
         }
       }
         
@@ -42,6 +58,11 @@ export default function Login() {
       return (
         <div className="min-h-screen bg-gray-950 flex items-center justify-center">
           <div className="w-full max-w-md bg-gray-950 rounded-lg shadow-lg p-6">
+          { authError&& (
+            <Alert variant="filled" severity="error" sx={{ width: '100%'}} >
+              {authError}
+            </Alert>
+          )}
             
             {/* Logo */}
             <div className="flex justify-center mb-1 ">

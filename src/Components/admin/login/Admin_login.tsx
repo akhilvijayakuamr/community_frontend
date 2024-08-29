@@ -1,10 +1,13 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import backgroundImage from '../../../assets/images/adminlogin.jpg'
 import { useNavigate } from 'react-router-dom';
-import { UseDispatch } from 'react-redux';
+import { UseDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../../../Api/api';
 import { useDispatch } from 'react-redux';
 import { adminlogin } from '../../../redux/Actions/authActions';
+import { RootState } from '../../../redux/Store/store';
+import { setError } from '../../../redux/Slice/authSlice';
+
 
 
 
@@ -17,6 +20,20 @@ export default function AdminLogin() {
     const [error, setError] = useState<string|null>(null)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const authError = useSelector((state: RootState) => state.auth.error);
+
+
+    useEffect(() => {
+      if (authError) {
+        const timer = setTimeout(() => {
+          dispatch(setError(''));
+        }, 10000); 
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    }, [authError, dispatch]);
+
 
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,7 +86,13 @@ export default function AdminLogin() {
                   required
                 />
               </div>
+              <div className='mb-4'>
+                { authError&& (
+                  <p className='text-red-700'>{authError}</p>
+                )}
     
+              </div>
+              
               <button
                 type="submit"
                 className="mb-5 mt-3 w-full text-lg bg-orange-400 text-white py-2 px-4 rounded-md hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-blue-700"

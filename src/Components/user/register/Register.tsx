@@ -4,9 +4,8 @@ import Logo from '../../../assets/images/AssureTech_transparent-.png'
 import { SignupFormData } from '../../../utils/interfaces';
 import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootStates } from '../../../utils/interfaces';
 import { signUpAsync } from '../../../redux/Actions/authActions';
-import { setEmail, setError  } from '../../../redux/Slice/authSlice';
+import { setEmail } from '../../../redux/Slice/authSlice';
 import { RootState } from '../../../redux/Store/store';
 
 
@@ -16,7 +15,7 @@ export default function Register() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const prefilledEmail = useSelector((state: RootState)=>state.auth.email)
-    const authError = useSelector((state: RootStates) => state.auth.error);
+    const authError = useSelector((state: RootState) => state.auth.error);
 
     const [SignupFormData, setSignupFormData] = useState<SignupFormData>({
         username: "",

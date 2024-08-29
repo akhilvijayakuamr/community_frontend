@@ -9,6 +9,9 @@ export const signUpApi = (SignupFormData: SignupFormData): Promise<AxiosResponse
 export const verifyOtp = (email: string, otp: string): Promise<AxiosResponse<any>> =>
     axios.post(`${BASE_URL}/users/verify_otp/`, { email, otp });
 
+export const resendApi = (email: string): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/users/resend_otp/`, { email });
+
 export const loginApi = (email: string, password: string): Promise<AxiosResponse<any>> =>
     axios.post(`${BASE_URL}/users/user_login/`, { email, password });
 

@@ -1,4 +1,4 @@
-import { signUpApi, verifyOtp, loginApi, adminLoginApi } from "../../Api/api";
+import { signUpApi, verifyOtp, loginApi, adminLoginApi, resendApi } from "../../Api/api";
 import { clearError, setEmail, setError, setLogin, setUser, adminLogin } from "../Slice/authSlice";
 import { Dispatch } from "@reduxjs/toolkit";
 import { ApiResponse, SignupFormData } from "../../utils/interfaces";
@@ -13,7 +13,6 @@ export const signUpAsync = (SignupFormData:SignupFormData, navigate: (path:strin
         try{
             const response: ApiResponse = await signUpApi(SignupFormData);
             if(response.status >= 200 && response.status <300){
-                console.log(response.data)
                 dispatch(setUser(response.data.data))
                 navigate('/otp_register')
             }else{
@@ -21,8 +20,6 @@ export const signUpAsync = (SignupFormData:SignupFormData, navigate: (path:strin
             }
         }catch (error) {
             if (axios.isAxiosError(error) && error.response){
-                console.log("error response: ", error.response);
-                console.log("error response data: ", error.response.data?.error);
                 setError(error.response.data?.error)
                 dispatch(setError(error.response.data?.error || "Unknown error occurred"))
             }else{
@@ -37,7 +34,6 @@ export const verifyOtpAsync = (email:string, otp:string, navigate: (path:string)
     async (dispatch:Dispatch) =>{
         try{
             const response = await verifyOtp(email, otp)
-            console.log("Api response: ", response)
 
             if(response.status == 201){
                 dispatch(setUser(response.data.user))
@@ -47,8 +43,6 @@ export const verifyOtpAsync = (email:string, otp:string, navigate: (path:string)
             }
         }catch(error){
             if (axios.isAxiosError(error) && error.response){
-                console.log("error response: ", error.response);
-                console.log("error response data: ", error.response.data?.error);
                 setError(error.response.data?.error)
                 dispatch(setError(error.response.data?.error || "Unknown error occurred"))
             }else{
@@ -59,11 +53,35 @@ export const verifyOtpAsync = (email:string, otp:string, navigate: (path:string)
 
 
 
-export const login = (email:string, password:string, navigate: (path:string)=> void) =>
+export const resendOTP = (email:string) =>
+    async (dispatch:Dispatch) =>{
+        console.log(email)
+        try{
+            const response = await resendApi(email)
+            if(response.status != 200){
+                dispatch(setError(response.data.error));
+            }
+        }catch(error){
+            if (axios.isAxiosError(error) && error.response){
+                setError(error.response.data?.error)
+                dispatch(setError(error.response.data?.error || "Unknown error occurred"))
+            }else{
+                dispatch(setError("Unexpected error occurred"))
+            }
+        }
+    }
+
+
+
+
+
+export const login = (email:string, password:string, navigate: (path:string) => void) =>
+   
     async (dispatch:Dispatch)=>{
         dispatch(setError(''))
         try{
             const response = await loginApi(email, password)
+            console.log(email,password)
             console.log(response)
             if(response.status == 200){
                 dispatch(setLogin(response.data))
@@ -73,9 +91,9 @@ export const login = (email:string, password:string, navigate: (path:string)=> v
                 localStorage.setItem('userId', response.data.id)
                 localStorage.setItem('CurrentUser', JSON.stringify(response.data))
                 dispatch(clearError())
+                navigate('/Home')
             }else{
                 dispatch(setError("Invalid details"))
-                
             }
         }catch (error) {
             if (axios.isAxiosError(error) && error.response){
@@ -91,8 +109,6 @@ export const login = (email:string, password:string, navigate: (path:string)=> v
         }
     }
 
-
-
     export const adminlogin = (email:string, password:string, navigate: (path:string)=> void) =>
         async (dispatch:Dispatch)=>{
             dispatch(setError(''))
@@ -104,7 +120,7 @@ export const login = (email:string, password:string, navigate: (path:string)=> v
                     console.log("AdminID: ",response.data.id)
                     console.log("JWT: ", response.data.token)
                     localStorage.setItem('admin_token',response.data.token)
-                    navigate('/main')
+                    navigate('/dashboard')
                     dispatch(clearError())
                 }else{
                     dispatch(setError("Invalid details"))
@@ -116,10 +132,7 @@ export const login = (email:string, password:string, navigate: (path:string)=> v
                     setError(error.response.data?.error)
                     dispatch(setError(error.response.data?.error || "Unknown error occurred"))
                 }else{
-                    dispatch(setError("Unexpected error occurred"))
+                    dispatch(setError("Unexpecte129130d error occurred"))
                 }
             }
-           
-                
-
         }

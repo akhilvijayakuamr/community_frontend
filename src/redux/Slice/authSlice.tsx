@@ -28,6 +28,7 @@ const authSlice = createSlice({
             state.error = action.payload;
         },
 
+
         clearError:(state) =>{
             state.error = null;
         },

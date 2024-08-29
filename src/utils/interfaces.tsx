@@ -42,8 +42,3 @@ export interface SignupFormData {
     confirmPassword: string;
   }
 
-export interface RootStates {
-    auth: {
-      error: string | null;
-    };
-  }
