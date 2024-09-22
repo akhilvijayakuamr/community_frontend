@@ -17,7 +17,7 @@ export default function AdminLogin() {
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const [error, setError] = useState<string|null>(null)
+    // const [error, setError] = useState<string|null>(null)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const authError = useSelector((state: RootState) => state.auth.error);
@@ -41,7 +41,7 @@ export default function AdminLogin() {
         try{
           await dispatch(adminlogin(email,password,navigate) as any);
         }catch{
-          console.log("Login Error", error)
+          console.log("Login Error", authError)
         }
       }
    

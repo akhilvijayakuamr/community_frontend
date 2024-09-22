@@ -7,10 +7,15 @@ const initialState : authState ={
     error: null,
     email:'',
     login:false,
-    token:null,
-    admin_token:'',
+    user_token:null,
+    admin_token:null,
+    admin_login:false,
     reset_email:'',
     allUsers:[],
+    userId:'',
+    message:null,
+    forgot:false,
+    user_profile:'',
 };
 
 const authSlice = createSlice({
@@ -29,6 +34,20 @@ const authSlice = createSlice({
         },
 
 
+        setForgot:(state) =>{
+            state.forgot = true
+        },
+
+        setOutForgot:(state)=>{
+            state.forgot = false
+        },
+
+
+        setMessage:(state, action: PayloadAction<string>) =>{
+            state.message = action.payload;
+        },
+
+
         clearError:(state) =>{
             state.error = null;
         },
@@ -37,28 +56,38 @@ const authSlice = createSlice({
             state.email = action.payload;
         },
 
-        setLogin:(state, action: PayloadAction<{user:any}>) =>{
+        setUserLogin:(state, action: PayloadAction<{user:any, token:string, id:string, profile_image:string}>) =>{
             state.login = true;
             state.allUsers = action.payload.user;
+            state.user_token = action.payload.token;
+            state.userId = action.payload.id;
+            state.user_profile = action.payload.profile_image;
         },
 
         setToken:(state, action: PayloadAction<string | null>) =>{
-            state.token = action.payload;
+            state.user_token = action.payload;
         },
 
         userLogout:(state) =>{
             state.user = null;
             state.login = false;
-            state.token = null;
+            state.user_token = null;
             state.error = null;
         },
 
-        adminLogin:(state, action: PayloadAction<{jwt:string}>) =>{
-            state.admin_token = action.payload.jwt;
+        adminLogin:(state, action: PayloadAction<{token:string}>) =>{
+            state.admin_login = true;
+            state.admin_token = action.payload.token;
         },
 
         usersList:(state, action: PayloadAction<any[]>) =>{
             state.allUsers = action.payload;
+        },
+
+        adminLogout:(state) =>{
+            state.admin_login = false;
+            state.admin_token = null;
+            state.error = null;
         },
     },
 });
@@ -69,11 +98,15 @@ export const {
     setError,
     clearError,
     setEmail,
-    setLogin,
+    setUserLogin,
     setToken,
     userLogout,
     adminLogin,
     usersList,
+    adminLogout,
+    setMessage,
+    setForgot, 
+    setOutForgot
 
 } = authSlice.actions;
 
