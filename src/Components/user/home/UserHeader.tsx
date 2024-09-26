@@ -12,6 +12,7 @@ export const UserHeader: React.FC = () => {
     const navigate = useNavigate()
     const Login = useSelector((state: RootState) => state.auth.login)
     const profile = useSelector((state: RootState) => state.auth.user_profile)
+    const userId = useSelector((state: RootState) => state.auth.userId)
 
 
 
@@ -27,6 +28,15 @@ export const UserHeader: React.FC = () => {
 
     const createPost = () =>{
         navigate('/createpost')
+    }
+
+
+
+
+    const handleGetProfile = (e:React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>{
+        e.preventDefault()
+        const profileId = e.currentTarget.id;
+        navigate('/profile', {state: {profileId: profileId}})
     }
 
 
@@ -84,7 +94,7 @@ export const UserHeader: React.FC = () => {
                                 <button className="flex items-center focus:outline-none" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                                     {profile?
                                         <img
-                                        className="h-10 w-10 rounded-full"
+                                        className="h-10 w-10 rounded-full border-2 border-gray-400"
                                         src={profile}
                                         alt="Profile"
                                         />
@@ -103,9 +113,9 @@ export const UserHeader: React.FC = () => {
                                         <Link to='/Home' className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                             Home
                                         </Link>
-                                        <Link to='/profile' className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        <a id={userId} onClick={handleGetProfile} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                             Profile
-                                        </Link>
+                                        </a>
                                         <a onClick={handleAdminLogout} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                             Logout
                                         </a>

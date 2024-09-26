@@ -13,8 +13,6 @@ import { postLikeApi } from '../../../Api/api';
 export const UserHome: React.FC = () => {
 
   const [postList, setPostList] = useState<AllPostData[]>([]);
-  const [liked, setLiked] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
   const userToken: string | null = useSelector((state: RootState) => state.auth.user_token)
   const userId: string = useSelector((state: RootState) => state.auth.userId)
   const navigate = useNavigate()
@@ -58,13 +56,25 @@ export const UserHome: React.FC = () => {
   }
 
 
+
+
+  const handleGetProfile = (e:React.MouseEvent<HTMLAnchorElement, MouseEvent>) =>{
+    e.preventDefault()
+    const profileId = e.currentTarget.id;
+    navigate('/profile', {state: {profileId: profileId}})
+}
+
+
   // Like post
 
 
   const handleLikeClick = async (postId: string) => {
     const updatedPostList = postList.map((post) => {
       if (post.post_id === postId) {
-        return { ...post, like: !post.like };
+        return {
+          ...post, like: !post.like,
+          like_count: post.like ? post.like_count - 1 : post.like_count + 1
+        };
       }
       return post;
     });
@@ -102,15 +112,18 @@ export const UserHome: React.FC = () => {
             >
               <div className='flex justify-between'>
 
-                <button className="flex items-center focus:outline-none pl-3 pt-3">
+                <a 
+                id={card.user_id} onClick={handleGetProfile}
+                className="flex items-center focus:outline-none pl-3 pt-3">
 
 
+                
                   <img
-                    className="h-8 w-8 rounded-full"
-                    src={card.postimage ? card.postimage : "https://via.placeholder.com/40"}
+                    className="h-8 w-8 rounded-full border-2 border-gray-500"
+                    src={card.profileimage ? card.profileimage : "https://via.placeholder.com/40"}
                     alt={card.title ? card.title : "Profile"}
                   />
-                </button>
+                </a>
                 <a id={card.post_id} onClick={handleGetPost}
 
                   className="inline-flex items-center px-3 py-2 mt-3 mr-3 text-sm text-center bg-white rounded-xl text-black font-bold opacity-0 group-hover:opacity-100 cursor-pointer "
@@ -147,6 +160,10 @@ export const UserHome: React.FC = () => {
                           <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                         </svg>
                         <span className="sr-only">Icon description</span>
+                        <span className="sr-only">Like</span>
+
+                        {/* Add like count here */}
+                        <span className="ml-2 text-sm font-medium">{card.like_count}</span>
                       </button>
                       :
                       <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
@@ -154,6 +171,10 @@ export const UserHome: React.FC = () => {
                           <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                         </svg>
                         <span className="sr-only">Icon description</span>
+                        <span className="sr-only">Like</span>
+
+                        {/* Add like count here */}
+                        <span className="ml-2 text-sm font-medium">{card.like_count}</span>
                       </button>
                   }
 
@@ -161,7 +182,7 @@ export const UserHome: React.FC = () => {
 
                   <a
                     id={card.post_id}
-                    onClick={handleGetPost}        
+                    onClick={handleGetPost}
                     className="text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:focus:ring-green-800 dark:hover:bg-green-500"
                   >
                     <svg
@@ -173,7 +194,10 @@ export const UserHome: React.FC = () => {
                     >
                       <path d="M9 0C4.03 0 0 3.58 0 8c0 1.33.38 2.58 1.02 3.65-.13.68-.43 2.04-1.02 3.03 0 0 1.83-.17 3.23-1.12.45-.32.95-.58 1.5-.79C6.74 13.66 7.85 14 9 14c4.97 0 9-3.58 9-8s-4.03-8-9-8Z" />
                     </svg>
-                    <span className="sr-only">Comment</span>
+                    <span className="sr-only">Like</span>
+
+                    {/* Add like count here */}
+                    <span className="ml-2 text-sm font-medium">{card.comment_count}</span>
                   </a>
 
                 </div>

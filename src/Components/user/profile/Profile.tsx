@@ -3,10 +3,12 @@ import { UserHeader } from '../home/UserHeader';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/Store/store';
 import { AxiosResponse } from 'axios';
-import { ProfileList } from '../../../utils/interfaces';
-import { UserData, UserUpdate } from '../../../Api/api';
+import { ProfileList, ProfileListUpdate } from '../../../utils/interfaces';
+import { UserData, UserUpdate, postLikeApi } from '../../../Api/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 export const Profile: React.FC = () => {
@@ -17,7 +19,8 @@ export const Profile: React.FC = () => {
 
 
   const [profileData, setProfileData] = useState<ProfileList>();
-  const [updateData, setUpdateData] = useState<ProfileList>({
+  const [reloadProfile, setReloadProfile] = useState<boolean>(false);
+  const [updateData, setUpdateData] = useState<ProfileListUpdate>({
     full_name: "",
     bio: "",
     location: "",
@@ -33,6 +36,8 @@ export const Profile: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const usertoken: string | null = useSelector((state: RootState) => state.auth.user_token)
   const userId: string = useSelector((state: RootState) => state.auth.userId)
+  const navigate = useNavigate()
+  const location = useLocation()
 
 
   // Set headers for auth
@@ -44,11 +49,20 @@ export const Profile: React.FC = () => {
   };
 
 
+
+  const handleGetPost = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault()
+    const postId = e.currentTarget.id;
+    navigate('/viewpost', { state: { postId: postId } })
+  }
+
+
   // Updata toggle bar closed and open
-  
+
 
 
   const toggleModel = () => {
+
     setIsOpen(!isOpen)
   };
 
@@ -64,11 +78,46 @@ export const Profile: React.FC = () => {
       console.log(response.data)
       setIsOpen(!isOpen)
       toast.success(response.data)
+      setReloadProfile(prev => !prev);
     } catch {
       toast.error("Updation is not successfull")
     }
 
   }
+
+
+  // Like post
+
+
+  const handleLikeClick = async (postId: string) => {
+    setProfileData((prevProfileData) => {
+      if (!prevProfileData) return prevProfileData;
+
+      const updatedPostList = prevProfileData.posts.map((post) => {
+        if (post.post_id === postId) {
+          return {
+            ...post,
+            like: !post.like,
+            like_count: post.like ? post.like_count - 1 : post.like_count + 1
+          };
+        }
+        return post;
+      });
+
+      return { ...prevProfileData, posts: updatedPostList };
+    });
+
+    try {
+      const response: AxiosResponse<any> = await postLikeApi(postId, userId, headers)
+      console.log(response.data)
+
+    } catch (error) {
+      console.error("Error", error
+
+      )
+    }
+  }
+
 
 
 
@@ -78,9 +127,11 @@ export const Profile: React.FC = () => {
 
 
   useEffect(() => {
+    const profileId = location.state.profileId
+    console.log(profileId)
     const profileDataCall = async () => {
       try {
-        const response: AxiosResponse<any> = await UserData(userId, headers);
+        const response: AxiosResponse<any> = await UserData(profileId, headers);
         console.log(response.data)
         setProfileData(response.data)
       } catch {
@@ -88,11 +139,9 @@ export const Profile: React.FC = () => {
       }
     }
 
-
-
     profileDataCall()
 
-  }, [])
+  }, [reloadProfile])
 
 
   // Initialize profile updata data
@@ -126,41 +175,40 @@ export const Profile: React.FC = () => {
       <UserHeader />
       <ToastContainer />
       <section className="relative block h-[500px]">
-        <div
-          className="absolute top-0 w-full h-full bg-center bg-cover"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')",
-          }}
-        >
-          <span
-            id="blackOverlay"
-            className="w-full h-full absolute opacity-50 bg-black"
-          ></span>
-        </div>
-        <div
-          className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-[70px]"
-          style={{ transform: "translateZ(0px)" }}
-        >
-          <svg
-            className="absolute bottom-0 overflow-hidden"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            version="1.1"
-            viewBox="0 0 2560 100"
-            x="0"
-            y="0"
+        {profileData?.coverImage ?
+          <div
+            className="absolute top-0 w-full h-full bg-center "
+
+            style={{
+              backgroundImage:
+                `url('${profileData.coverImage}')`,
+            }}
           >
-            <polygon
-              className="text-blueGray-200 fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
-          </svg>
-        </div>
+            <span
+              id="blackOverlay"
+              className="w-full h-full absolute opacity-50 bg-black"
+            ></span>
+          </div>
+          :
+          <div
+            className="absolute top-0 w-full h-full bg-center bg-cover"
+
+            style={{
+              backgroundImage:
+                "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')",
+            }}
+          >
+            <span
+              id="blackOverlay"
+              className="w-full h-full absolute opacity-50 bg-black"
+            ></span>
+          </div>
+        }
+
       </section>
-      <section className="relative py-16 bg-blueGray-200">
-        <div className="container mx-auto px-4">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
+      <section className="relative py-16 bg-gray-800">
+        <div className="container mx-auto bg-gray-800 px-4">
+          <div className="relative flex flex-col min-w-0 break-words bg-gray-800 w-full mb-6 shadow-xl rounded-lg -mt-64 pb-6">
             <div className="px-6">
               <div className="flex flex-wrap justify-center">
                 <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
@@ -171,7 +219,7 @@ export const Profile: React.FC = () => {
                       <img
                         alt="Profile"
                         src={profileData.profileImage}
-                        className="shadow-xl rounded-full align-middle h-[200px] w-[200px]   mb-20 ml-20 "
+                        className="shadow-xl border-4 border-white rounded-full align-middle h-[200px] w-[200px]   mb-20 "
                       />
                       :
                       <img
@@ -184,74 +232,187 @@ export const Profile: React.FC = () => {
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                  <div className="py-6 px-3 mt-32 sm:mt-0">
-                    <button
-                      className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={toggleModel}
-                    >
-                      Edit
-                    </button>
-                  </div>
+                  {
+                    profileData?.id === userId ?
+                      <div className="py-6 px-3 mt-32 sm:mt-0">
+                        <button
+                          className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={toggleModel}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                      :
+                      <div className="py-6 px-3 mt-32 sm:mt-0">
+                        <button
+                          className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={toggleModel}
+                        >
+                          Follow
+                        </button>
+                      </div>
+                  }
+
+
                 </div>
                 <div className="w-full lg:w-4/12 px-4 lg:order-1">
                   <div className="flex justify-center py-4 lg:pt-4 pt-8">
                     <div className="mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+                      <span className="text-xl font-bold block uppercase tracking-wide text-gray-300">
                         22
                       </span>
-                      <span className="text-sm text-blueGray-400">Follows</span>
-                    </div>
-                    <div className="mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        10
-                      </span>
-                      <span className="text-sm text-blueGray-400">Post</span>
+                      <span className="text-sm text-gray-300">Follows</span>
                     </div>
                     <div className="lg:mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+                      <span className="text-xl font-bold block uppercase tracking-wide text-gray-300">
                         89
                       </span>
-                      <span className="text-sm text-blueGray-400">Following</span>
+                      <span className="text-sm text-gray-300">Following</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="text-center mt-12">
-                <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
+              <div className="text-center mt-3">
+                <h3 className="text-4xl font-semibold leading-normal mb-2 text-gray-300">
                   {profileData?.full_name}
                 </h3>
-                <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold ">
-                  <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+                <div className="text-sm leading-normal mt-0 mb-2 text-gray-300 font-bold ">
+                  <i className="fas fa-map-marker-alt mr-2 text-lg text-gray-300"></i>
                   {profileData?.username ? profileData.username : "Username not provided"}
                 </div>
-                <div className="mb-2 text-blueGray-600 mt-10">
-                  <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
+                <div className="mb-2 text-gray-300 mt-10">
+                  <i className="fas fa-briefcase mr-2 text-lg text-gray-300"></i>
                   {profileData?.location ? profileData.location : "Location not provided"}
                 </div>
-                <div className="mb-2 text-blueGray-600">
+                <div className="mb-2 text-gray-300">
                   <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
                   {profileData?.dob ? profileData.dob : "Date of birth not provided"}
                 </div>
+                <div className="mb-2 text-gray-300">
+                  <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                  {profileData?.bio ? profileData.bio : "Bio not provided"}
+                </div>
               </div>
-              <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
+              <div className="mt-10 py-10 border-t border-gray-500 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">
-                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                      {profileData?.bio ? profileData.bio : "Bio not provided"}
+                    <p className="mb-4 text-lg leading-relaxed text-gray-300">
+                      Posts
                     </p>
-                    {/* <a
-                      href="#pablo"
-                      className="font-normal text-pink-500"
-                    >
-                      Show more
-                    </a> */}
                   </div>
                 </div>
               </div>
             </div>
+
+            <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 pl-5 pr-5 mt-8">
+              {profileData?.posts.map((card) => (
+
+                <div
+                  key={card.post_id}
+                  className=" relative group max-w-sm bg-white border border-gray-600 rounded-lg shadow dark:bg-zinc-800 hover:border-gray-100"
+
+
+                >
+                  <div className='flex justify-between'>
+
+                    <button className="flex items-center focus:outline-none pl-3 pt-3">
+
+
+                      <img
+                        className="h-8 w-8 rounded-full border-2 border-gray-500"
+                        src={card.profileimage ? card.profileimage : "https://via.placeholder.com/40"}
+                        alt={card.title ? card.title : "Profile"}
+                      />
+                    </button>
+                    <a id={card.post_id} onClick={handleGetPost}
+
+                      className="inline-flex items-center px-3 py-2 mt-3 mr-3 text-sm text-center bg-white rounded-xl text-black font-bold opacity-0 group-hover:opacity-100 cursor-pointer "
+                    >
+                      Read Post
+
+                    </a>
+                  </div>
+
+                  <a href="#">
+                    {card.postimage && (
+                      <img
+                        className="rounded-t-lg w-full h-40 object-cover p-3"
+                        src={card.postimage}
+                        alt={card.title}
+                      />
+                    )}
+                  </a>
+                  <div className="p-5">
+                    <a href="#">
+                      <h5 className="mb-1  text-base font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">
+                        {card.title}
+                      </h5>
+                    </a>
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
+                      {card.content}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{card.date}</p>
+                    <div className="mt-4 flex items-center justify-between">
+                      {
+                        card.like ?
+                          <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" hover:text-blue-700 border hover:border-blue-700 hover:bg-transparent text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500  dark:text-white dark:focus:ring-blue-800 dark:bg-blue-500">
+                            <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                              <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
+                            </svg>
+                            <span className="sr-only">Icon description</span>
+                            <span className="sr-only">Like</span>
+
+                            {/* Add like count here */}
+                            <span className="ml-2 text-sm font-medium">{card.like_count}</span>
+                          </button>
+                          :
+                          <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
+                            <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                              <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
+                            </svg>
+                            <span className="sr-only">Icon description</span>
+                            <span className="sr-only">Like</span>
+
+                            {/* Add like count here */}
+                            <span className="ml-2 text-sm font-medium">{card.like_count}</span>
+                          </button>
+                      }
+
+
+
+                      <a
+                        id={card.post_id}
+                        onClick={handleGetPost}
+                        className="text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:focus:ring-green-800 dark:hover:bg-green-500"
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 18 18"
+                        >
+                          <path d="M9 0C4.03 0 0 3.58 0 8c0 1.33.38 2.58 1.02 3.65-.13.68-.43 2.04-1.02 3.03 0 0 1.83-.17 3.23-1.12.45-.32.95-.58 1.5-.79C6.74 13.66 7.85 14 9 14c4.97 0 9-3.58 9-8s-4.03-8-9-8Z" />
+                        </svg>
+                        <span className="sr-only">Like</span>
+
+                        {/* Add like count here */}
+                        <span className="ml-2 text-sm font-medium">{card.comment_count}</span>
+                      </a>
+
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
         </div>
+
+
         <footer className="relative bg-blueGray-200 pt-8 pb-6 mt-8">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap items-center md:justify-between justify-center">
@@ -426,6 +587,7 @@ export const Profile: React.FC = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 

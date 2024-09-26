@@ -1,7 +1,7 @@
-import { ProfileList, SignupFormData } from "../utils/interfaces";
+import { ProfileList, SignupFormData, ProfileListUpdate } from "../utils/interfaces";
 export const BASE_URL= 'http://localhost:8000/'
 import axios, {AxiosResponse} from "axios";
-import { UsersList, PostData  } from "../utils/interfaces";
+import { UsersList, PostData, ReplyFormData  } from "../utils/interfaces";
 
 
 // Signup api
@@ -77,7 +77,7 @@ export const UserData= (userId:string, headers: { [key: string]: string }): Prom
 
 
 
-export const UserUpdate= (ProfileList: ProfileList,  headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
+export const UserUpdate= (ProfileList: ProfileListUpdate,  headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
     axios.post(`${BASE_URL}/users/userprofileupdate/`, ProfileList,{headers})
 
 
@@ -140,5 +140,17 @@ export const postLikeApi = (postId:string, userId:string, headers:{[key:string]:
 
 export const postCommentApi = (postId:string, userId:string, content:string, headers:{[key:string]:string}): Promise<AxiosResponse<any>> =>
     axios.post(`${BASE_URL}/post/comment/`, {postId, userId, content}, {headers} )
+
+
+
+
+// Replay Post
+
+
+export const postReplayComment = (ReplayFormData: ReplyFormData, headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/post/comment_replay/`, ReplayFormData, {headers})
+
+
+
 
 

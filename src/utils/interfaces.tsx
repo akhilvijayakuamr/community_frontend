@@ -66,9 +66,41 @@ export interface UsersList {
     is_active:boolean;
   }
 
+// All post interface
+
+export interface AllPostData {
+  post_id: string,
+  user_id: string,
+  title:string,
+  content:string,
+  link:string,
+  date:string,
+  postimage:any,
+  profileimage:any,
+  like:boolean,
+  like_count:number,
+  comment_count:string
+  
+}
 
 
 export interface ProfileList {
+    id:string;
+    username:string;
+    full_name:string;
+    location:string|null;
+    bio:string|null;
+    dob:string|null;
+    profileImage:any;
+    coverImage:any;
+    posts:AllPostData[]
+
+  }
+
+
+
+
+  export interface ProfileListUpdate {
     id:string;
     username:string;
     full_name:string;
@@ -93,20 +125,7 @@ export interface PostData {
 
 
 
-// All post interface
 
-export interface AllPostData {
-  post_id: string,
-  user_id: string,
-  title:string,
-  content:string,
-  link:string,
-  date:string,
-  postimage:any,
-  profileimage:any,
-  like:boolean
-  
-}
 
 
 // Unique post interface
@@ -125,8 +144,21 @@ export interface UniquePostData {
   full_name:string,
   username:string,
   like:boolean, 
+  like_count:number,
+  comment_count:string,
   comments: any[]
 
+}
+
+
+// Reply Comment interface
+
+export interface ReplyFormData {
+  userId:string,
+  mentionUserId:string,
+  mentionUserFullName:string,
+  commentId:string,
+  content:string
 }
 
 
