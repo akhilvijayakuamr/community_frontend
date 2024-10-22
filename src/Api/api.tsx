@@ -1,6 +1,7 @@
-import { ProfileList, SignupFormData, ProfileListUpdate } from "../utils/interfaces";
-export const BASE_URL= 'http://localhost:8000/'
-import axios, {AxiosResponse} from "axios";
+import { ProfileList, SignupFormData, ProfileListUpdate, PostUpdateData } from "../utils/interfaces";
+export const BASE_URL= 'http://localhost:8000'
+export const SOCKET_BASE_URL= 'http://localhost:8001/'
+import axios, {Axios, AxiosResponse} from "axios";
 import { UsersList, PostData, ReplyFormData  } from "../utils/interfaces";
 
 
@@ -68,8 +69,8 @@ export const AdminBlockUnblock = (userId:string, headers: { [key: string]: strin
 
 
 
-export const UserData= (userId:string, headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>{
-    return axios.post(`${BASE_URL}/users/profile/`,{userId}, {headers})
+export const UserData= (userId:string, profileId:string, headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>{
+    return axios.post(`${BASE_URL}/users/profile/`,{userId, profileId}, {headers})
 }
 
 
@@ -78,7 +79,7 @@ export const UserData= (userId:string, headers: { [key: string]: string }): Prom
 
 
 export const UserUpdate= (ProfileList: ProfileListUpdate,  headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
-    axios.post(`${BASE_URL}/users/userprofileupdate/`, ProfileList,{headers})
+    axios.put(`${BASE_URL}/users/userprofileupdate/`, ProfileList,{headers})
 
 
 
@@ -149,6 +150,113 @@ export const postCommentApi = (postId:string, userId:string, content:string, hea
 
 export const postReplayComment = (ReplayFormData: ReplyFormData, headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
     axios.post(`${BASE_URL}/post/comment_replay/`, ReplayFormData, {headers})
+
+
+
+
+// Following User
+
+
+export const userFollow = (userId:string, followUserId:string, headers:{[key:string]: string}): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/users/follow/`, {userId, followUserId}, {headers})
+
+
+
+// Update post
+
+
+export const PostUpdate= (PostList: PostUpdateData,  headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
+    axios.put(`${BASE_URL}/post/userpostupdate/`, PostList,{headers})
+
+
+// Comment delete
+
+
+export const CommentDelete = (commentId: string, headers: { [key: string]: string }): Promise<AxiosResponse<any>> => 
+    axios.delete(`${BASE_URL}/post/delete_comment/`, {
+        data: { commentId },
+        headers
+    });
+
+
+
+// Replay Delete
+
+export const replyDelete = (replyId: string, headers: { [key: string]: string }): Promise<AxiosResponse<any>> => 
+    axios.delete(`${BASE_URL}/post/delete_reply/`, {
+        data: { replyId },
+        headers
+    });
+
+
+
+// Post Delete
+
+export const postDelete = (postId: string, headers: {[key: string]: string}): Promise<AxiosResponse<any>> =>
+    axios.delete(`${BASE_URL}/post/post_delete/`,{
+        data: {postId},
+        headers
+    })
+
+
+// Post Report
+
+
+export const postReport = (postId:string, reportUserId:string, report:string, headers: {[key: string]: string}): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/post/post_report/`,{postId, reportUserId, report}, {headers})
+
+
+// Display all post admin
+
+export const postAdminiListApi = (headers: {[key: string]: string}): Promise<AxiosResponse<any>> =>
+    axios.get(`${BASE_URL}/post/admin_post_list/`, {headers});
+
+
+
+// Post Hide
+
+export const postHide = (postId: string, headers: {[key: string]: string}): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/post/post_hide/`,{postId}, {headers})
+
+
+
+// Get all chat 
+
+
+export const getChatList = (userId: string, chatUserId: string, headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/communication/chat_list/`, {userId,chatUserId}, headers)
+
+
+
+
+// Get chat user list
+
+
+export const getUserChat = (userId:string, headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/communication/chat_user/`, {userId}, headers)
+
+
+
+// Search user
+
+
+export const searchUser = (query:string, userId:string, headers: {[key:string]: string}): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/users/search/`, {query, userId}, headers)
+
+
+
+// Take all notification
+
+ 
+export const getNotification = (userId:string, headers: {[key:string]: string}): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/communication/get_notification/`, {userId}, headers)
+
+
+// Read all notification
+
+export const readNotification = (userId:string, headers: {[key:string]: string}): Promise<AxiosResponse<any>> =>
+    axios.post(`${BASE_URL}/communication/read_notification/`, {userId}, headers)
+
 
 
 

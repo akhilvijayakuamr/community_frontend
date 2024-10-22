@@ -73,6 +73,7 @@ const authSlice = createSlice({
             state.login = false;
             state.user_token = null;
             state.error = null;
+            state.userId = '';
         },
 
         adminLogin:(state, action: PayloadAction<{token:string}>) =>{

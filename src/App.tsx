@@ -14,6 +14,10 @@ import { ProfileEdit } from "./Components/user/profile/ProfileEdit"
 import SetPassword from "./Components/user/auth_forgot/SetPassword"
 import { CreatePost } from "./Components/user/post/CreatePost"
 import { PostView } from "./Components/user/post/PostView"
+import Chat from "./Components/user/chat/Chat"
+import { PostList } from "./Components/admin/Post/PostList"
+import EmptyChat from "./Components/user/chat/EmptyChat"
+
 
 
 
@@ -39,6 +43,9 @@ export default function App() {
           <Route path="/changepassword" element={<SetPassword/>}/>
           <Route path="/createpost" element={<CreatePost/>}/>
           <Route path="/viewpost" element={<PostView/>}/>
+          <Route path="/chat" element={<Chat/>}/>
+          <Route path="/chat_list" element={<EmptyChat/>}/>
+          <Route path="/post_list" element={<PostList/>}/>
         </Routes>
       </Router>
 
