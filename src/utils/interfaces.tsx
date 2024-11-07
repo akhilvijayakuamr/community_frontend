@@ -15,7 +15,10 @@ export interface authState {
     userId:string,
     message: string | null,
     forgot:boolean,
+    recalluser:boolean,
     user_profile:string,
+    admin_refresh_token:string | null,
+    user_refresh_token:string | null,
 }
 
 
@@ -84,6 +87,25 @@ export interface AllPostData {
 }
 
 
+export interface AllPostAdminData {
+  post_id: string,
+  user_id: string,
+  title:string,
+  content:string,
+  link:string,
+  date:string,
+  postimage:any,
+  profileimage:any,
+  is_block:boolean,
+  like_count:number,
+  comment_count:string,
+  is_delete:boolean,
+  is_report:boolean,
+  reports:any[]
+}
+
+
+
 export interface ProfileList {
     id:string;
     username:string;
@@ -93,6 +115,9 @@ export interface ProfileList {
     dob:string|null;
     profileImage:any;
     coverImage:any;
+    follow:boolean,
+    followers_count:number,
+    following_count:number,
     posts:AllPostData[]
 
   }
@@ -116,6 +141,18 @@ export interface ProfileList {
 
 export interface PostData {
     id:string,
+    title:string;
+    content:string;
+    link:string;
+    postImage:any;
+
+  }
+
+
+
+export interface PostUpdateData {
+    id:string,
+    user_id:string,
     title:string;
     content:string;
     link:string;
@@ -162,3 +199,26 @@ export interface ReplyFormData {
 }
 
 
+// chat user data
+
+export interface ChatState {
+  chatUserId: string; 
+  full_name: string;
+}
+
+
+
+// Notification data
+
+
+export interface NotificationInterface{
+  another_user:number,
+  content: string,
+  follower:number | null,
+  full_name:string,
+  id:number,
+  post:number | null,
+  read:boolean,
+  timestamp:string,
+  user_profile:string|null
+}

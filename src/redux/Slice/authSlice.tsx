@@ -16,6 +16,10 @@ const initialState : authState ={
     message:null,
     forgot:false,
     user_profile:'',
+    recalluser:false,
+    user_refresh_token:null,
+    admin_refresh_token:null,
+
 };
 
 const authSlice = createSlice({
@@ -56,12 +60,18 @@ const authSlice = createSlice({
             state.email = action.payload;
         },
 
-        setUserLogin:(state, action: PayloadAction<{user:any, token:string, id:string, profile_image:string}>) =>{
+        setUserLogin:(state, action: PayloadAction<{user:any, access_token:string, refresh_token:string, id:string, profile_image:string}>) =>{
             state.login = true;
             state.allUsers = action.payload.user;
-            state.user_token = action.payload.token;
+            state.user_token = action.payload.access_token;
+            state.user_refresh_token = action.payload.refresh_token;
             state.userId = action.payload.id;
             state.user_profile = action.payload.profile_image;
+        },
+
+        resetToken: (state, action: PayloadAction<{access_token:string, refresh_token:string}>) =>{
+            state.user_token = action.payload.access_token;
+            state.user_refresh_token = action.payload.refresh_token;
         },
 
         setToken:(state, action: PayloadAction<string | null>) =>{
@@ -72,12 +82,15 @@ const authSlice = createSlice({
             state.user = null;
             state.login = false;
             state.user_token = null;
+            state.user_refresh_token = null,
             state.error = null;
+            state.userId = '';
         },
 
-        adminLogin:(state, action: PayloadAction<{token:string}>) =>{
+        adminLogin:(state, action: PayloadAction<{access_token:string, refresh_token:string}>) =>{
             state.admin_login = true;
-            state.admin_token = action.payload.token;
+            state.admin_token = action.payload.access_token;
+            state.admin_refresh_token = action.payload.refresh_token;
         },
 
         usersList:(state, action: PayloadAction<any[]>) =>{
@@ -88,7 +101,14 @@ const authSlice = createSlice({
             state.admin_login = false;
             state.admin_token = null;
             state.error = null;
+            state.user_refresh_token = null;
         },
+
+        recall:(state) =>{
+            state.recalluser = !state.recalluser
+        }
+
+       
     },
 });
 
@@ -106,7 +126,10 @@ export const {
     adminLogout,
     setMessage,
     setForgot, 
-    setOutForgot
+    setOutForgot,
+    recall,
+    resetToken
+
 
 } = authSlice.actions;
 
