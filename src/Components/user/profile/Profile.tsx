@@ -131,7 +131,7 @@ export const Profile: React.FC = () => {
     console.log(profileId)
     const profileDataCall = async () => {
       try {
-        const response: AxiosResponse<any> = await UserData(profileId, headers);
+        const response: AxiosResponse<any> = await UserData(userId, profileId, headers);
         console.log(response.data)
         setProfileData(response.data)
       } catch {

@@ -116,6 +116,9 @@ export const UserHeader: React.FC = () => {
                                         <a id={userId} onClick={handleGetProfile} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                             Profile
                                         </a>
+                                        <Link to='/chat_list' className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            Chat
+                                        </Link>
                                         <a onClick={handleAdminLogout} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                             Logout
                                         </a>

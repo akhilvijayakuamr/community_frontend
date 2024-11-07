@@ -2,7 +2,7 @@ import { ProfileList, SignupFormData, ProfileListUpdate, PostUpdateData } from "
 export const BASE_URL= 'http://localhost:8000'
 import axios, {Axios, AxiosResponse} from "axios";
 import { UsersList, PostData, ReplyFormData  } from "../utils/interfaces";
-import { apiClient } from "../Interceptors/Interceptors";
+import { apiClient, apiAdmin } from "../Interceptors/Interceptors";
 
 
 // Signup api
@@ -52,7 +52,7 @@ export const adminLoginApi = (email: string, password: string): Promise<AxiosRes
 
 
 export const userListApi = (headers: { [key: string]: string }): Promise<AxiosResponse<UsersList[]>> => {
-    return axios.get<UsersList[]>(`${BASE_URL}/users/user_list/`, { headers });
+    return apiAdmin.get<UsersList[]>(`${BASE_URL}/users/user_list/`, { headers });
   }
 
 
@@ -61,7 +61,7 @@ export const userListApi = (headers: { [key: string]: string }): Promise<AxiosRe
 
 
 export const AdminBlockUnblock = (userId:string, headers: { [key: string]: string }): Promise<AxiosResponse<any>> =>{
-    return axios.post(`${BASE_URL}/users/block_unblock_user/`,{userId}, {headers})
+    return apiAdmin.post(`${BASE_URL}/users/block_unblock_user/`,{userId}, {headers})
 }
 
 
@@ -209,14 +209,14 @@ export const postReport = (postId:string, reportUserId:string, report:string, he
 // Display all post admin
 
 export const postAdminiListApi = (headers: {[key: string]: string}): Promise<AxiosResponse<any>> =>
-    axios.get(`${BASE_URL}/post/admin_post_list/`, {headers});
+    apiAdmin.get(`${BASE_URL}/post/admin_post_list/`, {headers});
 
 
 
 // Post Hide
 
 export const postHide = (postId: string, headers: {[key: string]: string}): Promise<AxiosResponse<any>> =>
-    axios.post(`${BASE_URL}/post/post_hide/`,{postId}, {headers})
+    apiAdmin.post(`${BASE_URL}/post/post_hide/`,{postId}, {headers})
 
 
 
