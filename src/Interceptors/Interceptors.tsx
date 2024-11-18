@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { store } from '../redux/Store/store';
 import { getAccessToken } from '../redux/Actions/authActions';
+export const BASE_URL= import.meta.env.VITE_BASE_URL
 
 
 
@@ -8,7 +9,7 @@ import { getAccessToken } from '../redux/Actions/authActions';
 // Client Interceptors
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: BASE_URL,
 });
 
 
@@ -67,7 +68,7 @@ apiClient.interceptors.response.use(
 // Admin Interceptor
 
 const apiAdmin = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: BASE_URL,
 });
 
 
