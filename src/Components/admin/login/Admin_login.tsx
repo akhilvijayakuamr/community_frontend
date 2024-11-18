@@ -1,8 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import backgroundImage from '../../../assets/images/adminlogin.jpg'
 import { useNavigate } from 'react-router-dom';
-import { UseDispatch, useSelector } from 'react-redux';
-import { BASE_URL } from '../../../Api/api';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { adminlogin } from '../../../redux/Actions/authActions';
 import { RootState } from '../../../redux/Store/store';
@@ -10,18 +9,17 @@ import { setError } from '../../../redux/Slice/authSlice';
 
 
 
-
-
-
 export default function AdminLogin() {
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    // const [error, setError] = useState<string|null>(null)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const authError = useSelector((state: RootState) => state.auth.error);
 
+
+
+  // Remove error
 
     useEffect(() => {
       if (authError) {
@@ -34,7 +32,8 @@ export default function AdminLogin() {
       }
     }, [authError, dispatch]);
 
-
+  
+    // Admin login
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

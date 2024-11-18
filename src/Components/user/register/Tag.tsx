@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Logo from '../../../assets/images/AssureTech_transparent-.png'
 
 const availableTags = [

@@ -12,12 +12,11 @@ export default function ForgotPassword() {
   const [mail, setmail] = useState<string>('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
 
+  // Set email
 
-  const handleEmail =  async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       await dispatch(ForgoteEmail(mail, navigate) as any);
       dispatch(setEmail(mail))
@@ -67,11 +66,6 @@ export default function ForgotPassword() {
               className="w-full px-3 py-2 bg-slate-900 border-l-2 border-red-500   rounded-md focus:outline-none  placeholder-white text-white focus:border-white focus:bg-slate-800"
             />
           </div>
-
-
-
-
-
           <br />
 
           {/* Sign Up Button */}

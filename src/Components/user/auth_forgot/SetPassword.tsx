@@ -41,7 +41,7 @@ export default function SetPassword() {
       }
 
 
-      return (
+  return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center">
     <div className="w-full max-w-md bg-gray-950 rounded-lg shadow-lg p-6">
         <ToastContainer/>

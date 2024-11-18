@@ -50,6 +50,9 @@ export const Header: React.FC = () => {
                         <Link to='/userlist' className='text-white hover:text-gray-200'>Users</Link>
                     </li>
                     <li>
+                        <Link to='/post_list' className='text-white hover:text-gray-200'>Posts</Link>
+                    </li>
+                    <li>
                         <button className='bg-gray-500 rounded-lg pl-3 pr-3 text-white' onClick={handleAdminLogout}>
                             Logout
                         </button>
@@ -73,6 +76,11 @@ export const Header: React.FC = () => {
                         </li>
                         <li>
                             <Link to='/userlist' className='block px-4 py-2 hover:bg-gray-700' onClick={toogleMenu}>
+                                Userlist
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/post_list' className='block px-4 py-2 hover:bg-gray-700' onClick={toogleMenu}>
                                 Userlist
                             </Link>
                         </li>

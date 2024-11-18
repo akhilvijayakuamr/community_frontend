@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { UserHeader } from '../home/UserHeader'
-import { PostData } from '../../../utils/interfaces'
+import { PostData } from '../../../utils/interface/user/post/postviewinterface'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/Store/store'
 import { AxiosResponse } from 'axios'
@@ -12,50 +12,41 @@ import { useNavigate } from 'react-router-dom'
 export const CreatePost: React.FC = () => {
 
     // Define initial post data 
-
+    const userId: string = useSelector((state: RootState) => state.auth.userId)
     const [postData, setPostData] = useState<PostData>({
-        id: '',
+        id: userId,
         title: '',
         content: '',
         link: '',
         postImage: null
     })
 
-
-
-    const usertoken: string | null = useSelector((state: RootState) => state.auth.user_token)
-    const userId: string = useSelector((state: RootState) => state.auth.userId)
+    
     const navigate = useNavigate()
 
 
     // Set headers for auth
 
     const headers = {
-        Authorization: `Bearer ${usertoken}`,
         'Content-Type': 'multipart/form-data',
     };
 
-
-
     // Validate every fields is required and Create post
 
-
-
-    const handleSubmit = async(e:React.FormEvent<HTMLFormElement>) =>{
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!postData.title.trim() || !postData.content.trim() || !postData.link .trim()|| !postData.postImage) {
+        if (!postData.title.trim() || !postData.content.trim() || !postData.link.trim() || !postData.postImage) {
             toast.error("Please fill in all required fields.");
             return
         }
-        
-        setPostData({...postData, id:userId})
 
-        try{
+        setPostData({ ...postData, id: userId })
+
+        try {
             const response: AxiosResponse<any> = await PostCreate(postData, headers);
-            console.log("response", response.data.post_id)
             navigate('/viewpost', { state: { postId: response.data.post_id } })
             toast.success(response.data)
-        }catch{
+        } catch {
             toast.error("Post creation is not successfull")
         }
     }
@@ -63,20 +54,17 @@ export const CreatePost: React.FC = () => {
 
     // User view
 
-
     return (
         <div>
             <UserHeader />
-            <ToastContainer/>
+            <ToastContainer />
             <div className="min-h-screen bg-gray-950 flex items-center justify-center">
                 <div className="w-full max-w-3xl bg-gray-950 rounded-lg shadow-lg ">
-
-
                     {/* Sign Up Form */}
                     <h2 className="text-2xl font-bold text-white text-center mb-6 mt-10">
                         Create Post
                     </h2>
-                    <form  onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         {/* Email Input */}
                         <div className="mb-4">
                             <label
@@ -88,8 +76,8 @@ export const CreatePost: React.FC = () => {
                             <input
                                 type="text"
                                 id="title"
-                                value={postData?.title?postData.title:""}
-                                onChange={(e)=>setPostData({...postData, title:e.target.value})}
+                                value={postData?.title ? postData.title : ""}
+                                onChange={(e) => setPostData({ ...postData, title: e.target.value })}
                                 placeholder="Enter Title"
                                 className="w-full px-3 py-2 bg-slate-900 border-l-2 border-red-500   rounded-md focus:outline-none  placeholder-white text-white focus:border-white focus:bg-slate-800"
                             />
@@ -100,8 +88,8 @@ export const CreatePost: React.FC = () => {
                             <textarea
                                 id="description"
                                 name="description"
-                                value={postData?.content?postData.content:''}
-                                onChange={(e)=>setPostData({...postData, content:e.target.value})}
+                                value={postData?.content ? postData.content : ''}
+                                onChange={(e) => setPostData({ ...postData, content: e.target.value })}
                                 rows={10}
                                 className="block p-3 w-full  bg-slate-900 text-smbg-slate-900 border-l-2 border-red-500   rounded-md focus:outline-none  placeholder-white text-white focus:border-white focus:bg-slate-800"
                                 placeholder="Share your thoughts"
@@ -119,8 +107,8 @@ export const CreatePost: React.FC = () => {
                             <input
                                 type="url"
                                 id="link"
-                                value={postData?.link?postData.link:""}
-                                onChange={(e)=>setPostData({...postData, link:e.target.value})}
+                                value={postData?.link ? postData.link : ""}
+                                onChange={(e) => setPostData({ ...postData, link: e.target.value })}
                                 placeholder="Enter article link"
                                 className="w-full px-3 py-2 bg-slate-900 border-l-2 border-red-500   rounded-md focus:outline-none  placeholder-white text-white focus:border-white focus:bg-slate-800"
                             />
@@ -136,16 +124,11 @@ export const CreatePost: React.FC = () => {
                             <input
                                 type="file"
                                 id="postimage"
-                                onChange={(e)=>setPostData({...postData, postImage:e.target.files?.[0] ?? null})}
+                                onChange={(e) => setPostData({ ...postData, postImage: e.target.files?.[0] ?? null })}
                                 placeholder="Enter Title"
                                 className="w-full px-3 py-2 bg-slate-900 border-l-2 border-red-500   rounded-md focus:outline-none  placeholder-white text-white focus:border-white focus:bg-slate-800"
                             />
                         </div>
-
-
-
-
-
                         {/* Sign Up Button */}
                         <button
                             type="submit"
@@ -154,10 +137,8 @@ export const CreatePost: React.FC = () => {
                             Submit
                         </button>
                     </form>
-
-
                 </div>
-                <div />
+                <div/>
             </div>
         </div>
     )

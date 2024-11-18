@@ -1,17 +1,12 @@
-import { signUpApi, verifyOtp, loginApi, adminLoginApi, resendApi, googleApi, forgotEmail, changePassword } from "../../Api/api";
-import { clearError, setEmail, setError, setUserLogin, setUser, adminLogin, se, setForgot } from "../Slice/authSlice";
+import { signUpApi, verifyOtp, loginApi, adminLoginApi, resendApi, googleApi, forgotEmail, changePassword, refresh } from "../../Api/api";
+import { clearError, setEmail, setError, setUserLogin, adminLogin, setForgot, resetToken, userLogout } from "../Slice/authSlice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { ApiResponse, SignupFormData } from "../../utils/interfaces";
-import axios from "axios";
-import { ThunkAction } from "@reduxjs/toolkit";
-import { RootState } from "../Store/store";
+import { SignupFormData, ApiResponse } from "../../utils/interface/user/signup/signupinterface";
+import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 
 
 
-
-type ThunkResult<R> = ThunkAction<R, RootState, undefined, any>;
 
 
 // Signup Action
@@ -43,15 +38,12 @@ export const signUpAsync = (SignupFormData: SignupFormData, navigate: (path: str
 // OTP Verification Action
 
 export const verifyOtpAsync = (email: string, otp: string, navigate: (path: string) => void) =>
-    
+
     async (dispatch: Dispatch) => {
         try {
-            const response = await verifyOtp(email, otp)  
+            const response = await verifyOtp(email, otp)
             if (response.status == 201) {
-                console.log("hai")
-                
                 navigate('/user_login')
-                
             } else {
                 dispatch(setError(response.data.error));
             }
@@ -101,8 +93,6 @@ export const login = (email: string, password: string, navigate: (path: string) 
 
             if (response.status == 200) {
                 dispatch(setUserLogin(response.data))
-                console.log("userID: ", response.data.id)
-                console.log("JWT: ", response.data.token)
                 dispatch(clearError())
                 toast.success("Login Successfully")
                 navigate('/Home')
@@ -139,8 +129,6 @@ export const googlelogin = (email: string, fullname: string, navigate: (path: st
 
             if (response.status == 200) {
                 dispatch(setUserLogin(response.data))
-                console.log("userID: ", response.data.id)
-                console.log("JWT: ", response.data.token)
                 dispatch(clearError())
                 navigate('/Home')
             } else {
@@ -148,8 +136,6 @@ export const googlelogin = (email: string, fullname: string, navigate: (path: st
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                console.log("error response: ", error.response);
-                console.log("error response data: ", error.response.data?.error);
                 setError(error.response.data?.error)
                 toast.error(error.response.data?.error || "Unknown error occurred")
                 dispatch(setError(error.response.data?.error || "Unknown error occurred"))
@@ -179,8 +165,6 @@ export const adminlogin = (email: string, password: string, navigate: (path: str
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                console.log("error response: ", error.response);
-                console.log("error response data: ", error.response.data?.error);
                 setError(error.response.data?.error)
                 toast.error(error.response.data?.error || "Unknown error occurred")
                 dispatch(setError(error.response.data?.error || "Unknown error occurred"))
@@ -193,13 +177,12 @@ export const adminlogin = (email: string, password: string, navigate: (path: str
 
 // Forgote Email
 
-export const ForgoteEmail= (email: string, navigate: (path: string) => void) =>
+export const ForgoteEmail = (email: string, navigate: (path: string) => void) =>
     async (dispatch: Dispatch) => {
         try {
             console.log(email)
             const response: ApiResponse = await forgotEmail(email);
             if (response.status >= 200 && response.status < 300) {
-                console.log("response", response)
                 dispatch(setForgot())
                 toast.success("Check your email for varification !!!")
                 navigate('/otp_register')
@@ -230,7 +213,6 @@ export const change = (email: string, password: string, navigate: (path: string)
         dispatch(setError(''))
         try {
             const response = await changePassword(email, password)
-            console.log("res",response)
             if (response.status == 201) {
                 toast.success("Password  Changed Successfully")
                 navigate('/user_login')
@@ -253,3 +235,30 @@ export const change = (email: string, password: string, navigate: (path: string)
     }
 
 
+
+// Access Token
+
+export const getAccessToken = async (userRefreshToken: string | null, dispatch: any, navigate: any) => {
+    if (!userRefreshToken) {
+        console.error("No refresh token found.");
+        return;
+    }
+
+    const refreshHeaders = {
+        Authorization: `Bearer ${userRefreshToken}`,
+        'Content-Type': 'application/json',
+    };
+
+    try {
+        const token: AxiosResponse<any> = await refresh(refreshHeaders);
+        dispatch(resetToken(token.data));
+        return token.data.access_token;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+            dispatch(userLogout());
+            navigate('/user_login');
+        } else {
+            console.error("Failed to refresh token:", error);
+        }
+    }
+};

@@ -1,10 +1,16 @@
-import React,{useEffect, useRef, useState} from 'react';
+import {useEffect, useRef} from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { UserHeader } from '../home/UserHeader';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+export const zego_appID = +import.meta.env.VITE_ZEGO_APPID
+export const zego_serverSecret = import.meta.env.VITE_ZEGO_SECRET
+export const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL
+export const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL
 
 
-function randomID(len) {
+// Create random id
+
+function randomID(len:any) {
   let result = '';
   if (result) return result;
   var chars = '12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP',
@@ -17,6 +23,9 @@ function randomID(len) {
   return result;
 }
 
+
+
+
 export function getUrlParams(
   url = window.location.href
 ) {
@@ -24,33 +33,39 @@ export function getUrlParams(
   return new URLSearchParams(urlStr);
 }
 
+
+
+
 export default function VideoCall() {
 
-  const socketRef = useRef()
+  const socketRef = useRef<WebSocket>()
   const location = useLocation();
   const data = location.state || {};
   const { id, fullName, userId } = data;
   const roomID = getUrlParams().get('roomID') || randomID(5);
+  const navigate = useNavigate()
+  
 
-  let myMeeting = async (element) => {
-    const appID = 1777095127;
-    const serverSecret = "c91dc94f7e53ae03356fef076997140f";
+  // Zegocloud config
+  
+
+  let myMeeting = async (element:any) => {
+    const appID = zego_appID;
+    const serverSecret = zego_serverSecret;
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, randomID(5), randomID(5));
     const zp = ZegoUIKitPrebuilt.create(kitToken);
 
     zp.joinRoom({
       container: element,
-      sharedLinks: [
-        {
-          name: 'Personal link',
-          url:
-            'http://localhost:5173/video_call' +
-            '?roomID=' +
-            roomID,
-        },
-      ],
       scenario: {
         mode: ZegoUIKitPrebuilt.GroupCall,
+      },
+      onLeaveRoom: () => {
+        if (socketRef.current) {
+          socketRef.current.close();
+          socketRef.current = undefined;
+        }
+        navigate('/chat_list');
       },
     });
 
@@ -61,22 +76,21 @@ export default function VideoCall() {
 
   useEffect(() => {
 
-    const URL = 'http://localhost:5173/video_call'+'?roomID=' +roomID
+    const URL = `${FRONTEND_URL}/video_call`+'?roomID=' +roomID
 
     const initializeWebSocket = () => {
       if (!socketRef.current || socketRef.current.readyState === WebSocket.CLOSED) {
-        socketRef.current = new WebSocket(`ws://localhost:8000/ws/video_call/?call_user=${String(id)}&user=${userId}`);
+        socketRef.current = new WebSocket(`${WEBSOCKET_URL}/ws/video_call/?call_user=${String(id)}&user=${userId}`);
 
 
         socketRef.current.onopen = () => {
-          console.log("WebSocket connected");
           const data = {
             message: `${URL}`,
             full_name:fullName
            };
            
           if (socketRef.current !== null) {
-            socketRef.current.send(JSON.stringify(data));
+            socketRef.current?.send(JSON.stringify(data));
           } else {
             console.error("Socket is null. Cannot send data.");
           }
@@ -109,6 +123,7 @@ export default function VideoCall() {
   return (
     <div>
       <UserHeader />
+    
       <div
         className="myCallContainer"
         ref={myMeeting}

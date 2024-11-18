@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import backgroundImage from '../../../assets/images/mainbackground.jpeg'
+import backgroundImage from '../../../assets/images/pleaseLogin.jpeg'
 import Logo from '../../../assets/images/AssureTech_transparent-.png'
-import { googlelogin, login } from '../../../redux/Actions/authActions';
+import { googlelogin} from '../../../redux/Actions/authActions';
 import './Mainpage.css'
 import { useNavigate } from 'react-router-dom';
 import { setEmail, setError } from '../../../redux/Slice/authSlice';
@@ -100,7 +100,7 @@ export default function Mainpage() {
 
   return (
     <div className="w-full h-screen bg-cover bg-center min-h-screen "
-      style={{ backgroundImage: `url(${backgroundImage})` }}>
+      style={{ backgroundImage: `url(${backgroundImage})`,  filter: "brightness(90%)", }}>
 
       <ToastContainer />
 

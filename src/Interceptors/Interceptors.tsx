@@ -42,9 +42,17 @@ apiClient.interceptors.response.use(
             return apiClient.request(error.config);
           }
         } catch (tokenError) {
-          console.error("Token refresh failed", tokenError);
+          if (axios.isAxiosError(error) && error.response?.status === 401) {
+            window.location.href = '/userLoginAgain';
+          }
         }
       }
+    }
+    else if (axios.isAxiosError(error) && error.response?.status === 404) {
+      window.location.href = '/404_user';
+    }
+    else{
+      window.location.href = '/404_user';
     }
 
     console.log("Error occurred", error);
@@ -93,9 +101,19 @@ apiAdmin.interceptors.response.use(
             return apiClient.request(error.config);
           }
         } catch (tokenError) {
+          if (axios.isAxiosError(error) && error.response?.status === 401) {
+            window.location.href = '/adminLoginAgain';
+          }
           console.error("Token refresh failed", tokenError);
         }
       }
+    }
+    else if (axios.isAxiosError(error) && error.response?.status === 404) {
+      window.location.href = '/404_admin';
+    }
+
+    else{
+      window.location.href = '/404_admin';
     }
 
     console.log("Error occurred", error);

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Logo from '../../../assets/images/AssureTech_transparent-.png'
-import { UseDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearError, setOutForgot } from '../../../redux/Slice/authSlice';
-import { verifyOtpAsync, resendOTP } from '../../../redux/Actions/authActions';
-import axios from 'axios';
+import { resendOTP } from '../../../redux/Actions/authActions';
 import { useDispatch } from 'react-redux';
 import { setError } from '../../../redux/Slice/authSlice';
 import { RootState } from '../../../redux/Store/store';
 import { ToastContainer, toast } from 'react-toastify';
 import { verifyOtp } from '../../../Api/api';
 import { AxiosResponse } from 'axios';
-
+import { useSelector } from 'react-redux';
 
 
 export default function OtpRegister() {
@@ -22,12 +20,10 @@ export default function OtpRegister() {
   const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
   const [reTime, setReTime] = useState<number>(60);
   const [canResend, setCanResend] = useState<boolean>(false);
-  const forgot = useSelector((state:RootState)=>state.auth.forgot)
+  const forgot = useSelector((state: RootState) => state.auth.forgot)
 
 
-
-
-// Auto delete Error
+  // Auto delete Error
 
   useEffect(() => {
     if (authError) {
@@ -41,12 +37,11 @@ export default function OtpRegister() {
   }, [authError, dispatch]);
 
 
-// Resend Otp Time
+  // Resend Otp Time
 
 
   useEffect(() => {
-    let intervalId: number | undefined;
-
+    let intervalId: NodeJS.Timeout | undefined;
     if (!canResend) {
       intervalId = setInterval(() => {
         setReTime((prevTime) => (prevTime === 0 ? 0 : prevTime - 1));
@@ -60,32 +55,30 @@ export default function OtpRegister() {
 
 
 
-// OTP verification
+  // OTP verification
 
 
   const handleVerify = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(clearError());
     const OTP: string = otp.join('');
-    try{
+    try {
       const response: AxiosResponse<any> = await verifyOtp(email, OTP);
-      if (response.status == 201){
-        console.log("forgote", forgot)
-        if(forgot){
+      if (response.status == 201) {
+        if (forgot) {
           dispatch(setOutForgot())
           navigate('/changepassword')
-        }else{
+        } else {
           navigate('/user_login')
         }
       }
-      
-    }catch{
+    } catch {
       toast.error("Updation is not successfull")
     }
   }
 
 
-// Resend OTP
+  // Resend OTP
 
   const sendOTP = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -99,7 +92,7 @@ export default function OtpRegister() {
   }
 
 
-// Mearge OTP numbers
+  // Mearge OTP numbers
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
@@ -108,8 +101,7 @@ export default function OtpRegister() {
       newOtp[index] = value;
       setOtp(newOtp);
 
-// Auto Change front
-
+      // Auto Change front
       if (value.length === 1 && index < otp.length - 1) {
         (document.getElementById(`otp-${index + 1}`) as HTMLInputElement).focus();
       }
@@ -117,7 +109,7 @@ export default function OtpRegister() {
   };
 
 
-// Auto Change back
+  // Auto Change back
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === 'Backspace' && otp[index] === '') {
@@ -127,16 +119,14 @@ export default function OtpRegister() {
     }
   };
 
-// User view
+  // User view
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-950">
       <div className="bg-gray-950 p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <ToastContainer />
 
-      <ToastContainer />
-
-
-        <div className="flex justify-center mb-1 ">
+        <div className="flex justify-center mb-1">
           <img
             src={Logo}
             alt="Logo"
@@ -145,6 +135,7 @@ export default function OtpRegister() {
         </div>
         <h2 className="text-2xl font-bold mb-4 text-white">Enter OTP</h2>
         <p className="mb-6 text-white">Please enter the 6-digit OTP sent to your email.</p>
+
         <div className="flex space-x-2">
           {otp.map((digit, index) => (
             <input
@@ -159,13 +150,28 @@ export default function OtpRegister() {
             />
           ))}
         </div>
-        <button onClick={handleVerify} className="mt-6 w-full bg-white text-black py-2 px-4 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700">
+
+        <button
+          onClick={handleVerify}
+          className="mt-6 w-full bg-white text-black py-2 px-4 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-700"
+        >
           Submit
         </button>
 
+        <div className="mt-4 text-white text-center">
+          {!canResend ? (
+            <p>Resend OTP in {reTime}s</p> // Display countdown timer
+          ) : (
+            <p>You can resend the OTP now.</p>
+          )}
+        </div>
+
         {canResend && (
-          <button onClick={sendOTP} className="mt-6 w-full bg-red-600 text-black py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-gray-700">
-            Resend OTP ({reTime})
+          <button
+            onClick={sendOTP}
+            className="mt-6 w-full bg-red-600 text-black py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-gray-700"
+          >
+            Resend OTP
           </button>
         )}
       </div>
