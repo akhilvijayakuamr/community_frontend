@@ -78,7 +78,6 @@ export default function ChatUser() {
         const fetchData = async () => {
             try {
                 const response: AxiosResponse<ChatUserList[]> = await getUserChat(userId, headers);
-                console.log("all user data=====", response.data)
                 setUserList(response.data)
 
             } catch {

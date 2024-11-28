@@ -73,7 +73,6 @@ export default function Chat() {
 
                     try {
                         const data = JSON.parse(event.data);
-                        console.log("message data", data)
                         if (
                             typeof data === "object" &&
                             data.id &&
@@ -83,6 +82,7 @@ export default function Chat() {
                             data.timestamp
                         ) {
                             setMessage((prevMessage) => [...prevMessage, data])
+                            dispatch(recall())
                         }
                         else {
                             console.log(data.user_id,userId)
@@ -135,7 +135,8 @@ export default function Chat() {
     const sendMessage = (e :React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const message = newMessage.trim();
+        let message = newMessage.trim();
+        message = message.replace(/['"]/g, '');
 
         if (message === "") {
             return;

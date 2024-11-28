@@ -35,12 +35,14 @@ export const UserHeader: React.FC = () => {
     })
     const debounce = useDebounce(query, 500)
     let isMounted = useRef(false);
+    const token = useSelector((state:RootState) => state.auth.user_token)
 
 
     // Headers for auth
 
     const headers = {
         'Content-Type': 'application/json',
+        'Authorization' :`Bearer ${token}`
     };
 
 

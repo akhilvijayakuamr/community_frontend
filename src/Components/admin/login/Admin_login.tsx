@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import backgroundImage from '../../../assets/images/adminlogin.jpg'
+import backgroundImage from '../../../assets/images/pleaseLogin.jpeg'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,16 @@ export default function AdminLogin() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const authError = useSelector((state: RootState) => state.auth.error);
+    const Login = useSelector((state: RootState) => state.auth.admin_login)
 
+
+  // Check user is login or not
+
+   useEffect(() => {
+    if (Login) {
+        navigate('/dashboard')
+    }
+  }, [])
 
 
   // Remove error

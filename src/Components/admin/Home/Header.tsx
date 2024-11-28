@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
 
     useEffect(() => {
         if (!Login) {
-            navigate('admin')
+            navigate('/admin')
         }
     }, [])
 
@@ -81,7 +81,7 @@ export const Header: React.FC = () => {
                         </li>
                         <li>
                             <Link to='/post_list' className='block px-4 py-2 hover:bg-gray-700' onClick={toogleMenu}>
-                                Userlist
+                                Allpost
                             </Link>
                         </li>
                         <li>
