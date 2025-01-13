@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authState } from "../../utils/interface/slice/sliceinterface";
 
 
+
 // Initialize all state
 
 const initialState : authState ={
@@ -21,6 +22,7 @@ const initialState : authState ={
     recalluser:false,
     user_refresh_token:null,
     admin_refresh_token:null,
+    is_premium:false
 
 };
 
@@ -61,6 +63,11 @@ const authSlice = createSlice({
         },
 
 
+        setPremium:(state, action: PayloadAction<boolean>) =>{
+            state.is_premium = action.payload;
+        },
+
+
         clearError:(state) =>{
             state.error = null;
         },
@@ -71,13 +78,14 @@ const authSlice = createSlice({
         },
 
 
-        setUserLogin:(state, action: PayloadAction<{user:any, access_token:string, refresh_token:string, id:string, profile_image:string}>) =>{
+        setUserLogin:(state, action: PayloadAction<{user:any, access_token:string, refresh_token:string, id:string, profile_image:string, email:string}>) =>{
             state.login = true;
             state.allUsers = action.payload.user;
             state.user_token = action.payload.access_token;
             state.user_refresh_token = action.payload.refresh_token;
             state.userId = action.payload.id;
             state.user_profile = action.payload.profile_image;
+            state.email = action.payload.email
         },
 
 
@@ -97,7 +105,9 @@ const authSlice = createSlice({
             state.login = false;
             state.user_token = null;
             state.user_refresh_token = null,
-            state.error = null;
+            state.error = null,
+            state.email = "",
+            state.is_premium = false
         },
 
 
@@ -144,7 +154,8 @@ export const {
     setForgot, 
     setOutForgot,
     recall,
-    resetToken
+    resetToken,
+    setPremium
 
 } = authSlice.actions;
 

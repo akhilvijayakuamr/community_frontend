@@ -21,6 +21,11 @@ import User404 from "./Components/404Page/User404"
 import Admin404 from "./Components/404Page/Admin404"
 import LoginAgain from "./Components/user/auth/LoginAgain"
 import AdminLoginAgain from "./Components/admin/login/AdminLoginAgain"
+import Premium from "./Components/user/payment/Premium"
+import Success from "./Components/user/payment/Success"
+import Failed from "./Components/user/payment/Failed"
+// import WebRTC from "./Components/user/video_call/WebRTC"
+import CallReview from "./Components/user/video_call/CallReview"
 
 
 
@@ -54,6 +59,11 @@ export default function App() {
           <Route path="/404_admin" element={<Admin404/>}/>
           <Route path="/userLoginAgain" element={<LoginAgain/>}/>
           <Route path="/adminLoginAgain" element={<AdminLoginAgain/>}/>
+          <Route path="/premium" element={<Premium/>}/>
+          <Route path="/payment_success" element={<Success/>}/>
+          <Route path="/payment_failed" element={<Failed/>}/>
+          {/* <Route path="/web_rtc" element={<WebRTC/>}/> */}
+          <Route path ="/call_review" element={<CallReview/>}/>
         </Routes>
       </Router>
 

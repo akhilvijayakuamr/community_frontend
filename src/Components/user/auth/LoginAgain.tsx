@@ -1,5 +1,5 @@
 import React from 'react';
-import page from '../../../assets/images/mainbackground.jpeg'
+import page from '../../../assets/images/pleaseLogin.jpeg'
 import { userLogout } from '../../../redux/Slice/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';

@@ -6,12 +6,13 @@ import Logo from '../../../assets/images/AssureTech_transparent-.png'
 import { RootState } from '../../../redux/Store/store';
 import { Link } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
-import { getNotification, readNotification, searchUser } from '../../../Api/api';
+import { getNotification, getPremium, readNotification, searchUser } from '../../../Api/api';
 import { recall } from '../../../redux/Slice/authSlice';
 import { callNotification, NotificationInterface } from '../../../utils/interface/user/header/headerinterface';
 import useDebounce from '../../../hooks/useDebounce';
 import { ToastContainer, toast } from 'react-toastify';
 const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL
+import { setPremium } from '../../../redux/Slice/authSlice';
 
 
 export const UserHeader: React.FC = () => {
@@ -28,21 +29,25 @@ export const UserHeader: React.FC = () => {
     const [popUp, setPopUp] = useState<boolean>(false);
     const [searchData, setSearchData] = useState<any[]>([])
     const [query, setQuery] = useState<string>('')
+    const [premiumPopup, setPremiumPopup] = useState<boolean>(false)
     const [callData, setCallData] = useState<callNotification>({
         notification: '',
         full_name: '',
-        service: ''
+        service: '',
+        my_id:'',
+        caller_id:'',
     })
     const debounce = useDebounce(query, 500)
     let isMounted = useRef(false);
-    const token = useSelector((state:RootState) => state.auth.user_token)
+    const email = useSelector((state: RootState) => state.auth.email)
+    const premium = useSelector((state: RootState) => state.auth.is_premium)
+
 
 
     // Headers for auth
 
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization' :`Bearer ${token}`
     };
 
 
@@ -53,6 +58,7 @@ export const UserHeader: React.FC = () => {
             navigate('/user_login')
         }
         getNotifications()
+        checkPremium()
 
     }, [userId])
 
@@ -69,6 +75,20 @@ export const UserHeader: React.FC = () => {
             console.error("The data is not fetch")
         }
     }
+
+
+
+    // Check premium
+
+    const checkPremium = async () => {
+        try {
+            const response: AxiosResponse<{ premium: boolean }> = await getPremium(email, headers);
+            console.log("premium", response.data.premium)
+            dispatch(setPremium(response.data.premium));
+        } catch {
+            console.error("The data is not fetched");
+        }
+    };
 
 
     // Read all notification
@@ -174,9 +194,65 @@ export const UserHeader: React.FC = () => {
     }
 
 
+
+    // Attend or reject call
+
+
+    // const callUpdate = (data:string, id:string) =>{
+    //     if (data == "attend"){
+    //         if (socketRef.current) {
+    //             socketRef.current.send(
+    //             JSON.stringify({ type: "attend", message: "Your message is accepted"})
+    //             );
+    //         }
+    //     }else if(data == "reject"){
+    //         if (socketRef.current) {
+    //             socketRef.current.send(
+    //             JSON.stringify({ type: "reject", message:"He is reject the call"})
+    //             );
+    //         }
+    //     }else{
+    //         if (socketRef.current) {
+    //             socketRef.current.send(
+    //             JSON.stringify({ type: "busy", message:"He is very busy" })
+    //             );
+    //         }
+    //     }
+
+    // }
+
+
+    // navigate chat
+
+    const navigateChat = () => {
+        if(premium){
+            navigate('/chat_list')
+        }
+        else{
+            setPremiumPopup(!premiumPopup)
+        }
+            
+    }
+
+
+    // pop down premium
+
+    const premiumDown = () => {
+        setPremiumPopup(!premiumPopup)
+    }
+
+
+    // Go to payment
+
+    const handlePayment = () => {
+        navigate('/premium')
+    }
+
+
     // Videocall popup
 
     const closePopup = () => {
+        // callUpdate("reject")
         setPopUp(false);
     };
 
@@ -195,7 +271,6 @@ export const UserHeader: React.FC = () => {
         try {
             if (query) {
                 const response: AxiosResponse<any[]> = await searchUser(query, userId, headers)
-                console.log("search response", response.data)
                 setSearchData(response.data)
             } else {
                 setSearchData([])
@@ -221,6 +296,17 @@ export const UserHeader: React.FC = () => {
         navigate('/user_login')
     }
 
+
+    const sendCallRequest = (username:string, user_id:string, userId:string) => {
+        const data = {
+            id: user_id,
+            fullName: username,
+            userId:userId,
+            call:"No"
+        };
+        // callUpdate(type:"attend", user_id )
+        navigate('/video_call', { state: data })
+    }
 
 
     // View page
@@ -328,9 +414,18 @@ export const UserHeader: React.FC = () => {
                                         <a id={userId} onClick={handleGetProfile} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                             Profile
                                         </a>
-                                        <Link to='/chat_list' className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        <a onClick={navigateChat} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                             Chat
-                                        </Link>
+                                        </a>
+
+                                        {
+                                            !premium && (
+                                                <Link to='/premium' className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                                    Premium
+                                                </Link>
+
+                                            )
+                                        }
 
                                         <a onClick={handleUserLogout} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                             Logout
@@ -386,9 +481,17 @@ export const UserHeader: React.FC = () => {
                             <a id={userId} onClick={handleGetProfile} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                 Profile
                             </a>
-                            <Link to='/chat_list' className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <a onClick={navigateChat} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                 Chat
-                            </Link>
+                            </a>
+                            {
+                                !premium && (
+                                    <Link to='/premium' className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        Premium
+                                    </Link>
+
+                                )
+                            }
 
                             <a onClick={handleUserLogout} className="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
                                 Logout
@@ -413,12 +516,11 @@ export const UserHeader: React.FC = () => {
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
                         <p className="font-bold text-lg">Notification for: {callData.full_name}</p>
-                        <p className="mt-4">Click below to join the meet:</p>
+                        <p className="mt-4">{callData.notification}</p>
+                        <p>{callData.my_id}</p>
+                        <p>{callData.caller_id}</p>
                         <button
-                            onClick={() => {
-                                window.location.href = callData.notification;
-                                closePopup();
-                            }}
+                            onClick={() => sendCallRequest(callData.full_name, callData.caller_id, callData.my_id)}
                             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                         >
                             Take the Call
@@ -477,6 +579,66 @@ export const UserHeader: React.FC = () => {
                         ))}
                     </ul>
                 </div>
+            )}
+
+
+            {premiumPopup && (
+                <div className="fixed top-0 right-0 bottom-0 left-0 z-50 flex items-center justify-center w-screen h-screen bg-black bg-opacity-50">
+                    <div className="relative p-6 w-full max-w-md bg-white rounded-lg shadowbg-gray-800">
+                        <button
+                            onClick={premiumDown}
+                            type="button"
+                            className="absolute top-3 right-3 text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
+                        >
+                            <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                />
+                            </svg>
+                        </button>
+                        <div className="text-center">
+                            <svg
+                                className="mx-auto mb-4 w-16 h-16 text-blue-300"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M12 17.5v3.25m0 0H9m3 0h3M12 3a9 9 0 0 1 9 9c0 4.08-2.61 7.44-6.26 8.71A3 3 0 0 1 12 17a3 3 0 0 1-2.74 3.71C5.61 19.44 3 16.08 3 12a9 9 0 0 1 9-9Z"
+                                />
+                            </svg>
+                            <h3 className="mb-3 text-xl font-bold text-gray-200">
+                                Unlock Chat & Video Call!
+                            </h3>
+                            <p className="mb-5 text-sm text-gray-400">
+                                Enjoy seamless one-on-one **video calls** and real-time **chat** features by upgrading to premium.
+                            </p>
+                            <button
+                                onClick={handlePayment}
+                                type="button"
+                                className="w-full mb-2 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-900"
+                            >
+                                Upgrade to Premium
+                            </button>
+                            <button
+                                onClick={premiumDown}
+                                type="button"
+                                className="w-full py-2 text-sm font-medium  rounded-lg focus:ring-4 focus:outline-none bg-gray-700 text-gray-300 hover:bg-gray-600 focus:ring-gray-600"
+                            >
+                                Maybe Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             )}
 
         </nav>

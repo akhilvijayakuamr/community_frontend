@@ -155,6 +155,7 @@ export default function Chat() {
             id: user_id,
             fullName: username,
             userId:userId,
+            call:"Yes"
         };
         navigate('/video_call', { state: data })
     }

@@ -252,6 +252,12 @@ export const getNotification = (userId:string, headers: {[key:string]: string}):
     apiClient.post(`${BASE_URL}/communication/get_notification/`, {userId}, headers)
 
 
+// Check premium or not
+
+export const getPremium = (email:string, headers: {[key:string]: string}): Promise<AxiosResponse<any>> =>
+    apiClient.post(`${BASE_URL}/communication/check_premium/`, {email}, headers)
+
+
 // Read all notification
 
 export const readNotification = (userId:string, headers: {[key:string]: string}): Promise<AxiosResponse<any>> =>

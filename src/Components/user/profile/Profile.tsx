@@ -402,7 +402,7 @@ export const Profile: React.FC = () => {
 
                       <div
                         key={card.post_id}
-                        className=" relative group max-w-sm bg-white border border-gray-600 rounded-lg shadow dark:bg-zinc-800 hover:border-gray-100"
+                        className=" relative group max-w-sm  border border-gray-600 rounded-lg shadow bg-zinc-800 hover:border-gray-100"
 
 
                       >
@@ -436,18 +436,18 @@ export const Profile: React.FC = () => {
                         </a>
                         <div className="p-5">
                           <a href="#">
-                            <h5 className="mb-1  text-base font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">
+                            <h5 className="mb-1  text-base font-bold tracking-tight text-white line-clamp-2">
                               {card.title}
                             </h5>
                           </a>
-                          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
+                          <p className="mb-3 font-normal text-gray-400 line-clamp-3">
                             {card.content}
                           </p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">{card.date}</p>
+                          <p className="text-sm text-gray-400">{card.date}</p>
                           <div className="mt-4 flex items-center justify-between">
                             {
                               card.like ?
-                                <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" hover:text-blue-700 border hover:border-blue-700 hover:bg-transparent text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500  dark:text-white dark:focus:ring-blue-800 dark:bg-blue-500">
+                                <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" hover:text-blue-700 border hover:border-blue-700 hover:bg-transparent focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-blue-500  text-white focus:ring-blue-800 bg-blue-500">
                                   <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                     <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                                   </svg>
@@ -458,7 +458,7 @@ export const Profile: React.FC = () => {
                                   <span className="ml-2 text-sm font-medium">{card.like_count}</span>
                                 </button>
                                 :
-                                <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
+                                <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" border focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-blue-500 text-blue-500 hover:text-white focus:ring-blue-800 hover:bg-blue-500">
                                   <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                     <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                                   </svg>
@@ -475,7 +475,7 @@ export const Profile: React.FC = () => {
                             <a
                               id={card.post_id}
                               onClick={handleGetPost}
-                              className="text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:focus:ring-green-800 dark:hover:bg-green-500"
+                              className=" border  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-green-500 text-green-500 hover:text-white focus:ring-green-800 hover:bg-green-500"
                             >
                               <svg
                                 className="w-5 h-5"
@@ -523,16 +523,16 @@ export const Profile: React.FC = () => {
               >
                 <div className="relative p-4 w-full max-w-md max-h-full">
                   {/* Modal content */}
-                  <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                  <div className="relative  rounded-lg shadow bg-gray-700">
                     {/* Modal header */}
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
+                      <h3 className="text-lg font-semibold text-white">
                         Edit profile
                       </h3>
                       <button
                         onClick={toggleModel}
                         type="button"
-                        className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        className="text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
                       >
                         <svg
                           className="w-3 h-3"
@@ -558,7 +558,7 @@ export const Profile: React.FC = () => {
                         <div className="col-span-2">
                           <label
                             htmlFor="name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-white"
                           >
                             Full Name
                           </label>
@@ -568,7 +568,7 @@ export const Profile: React.FC = () => {
                             id="name"
                             value={updateData?.full_name ? updateData.full_name : ""}
                             onChange={(e) => setUpdateData({ ...updateData, full_name: e.target.value })}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            className=" border  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500"
                             placeholder="Type product name"
                             required
                           />
@@ -576,7 +576,7 @@ export const Profile: React.FC = () => {
                         <div className="col-span-2">
                           <label
                             htmlFor="name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-white"
                           >
                             Location
                           </label>
@@ -586,7 +586,7 @@ export const Profile: React.FC = () => {
                             id="name"
                             onChange={(e) => setUpdateData({ ...updateData, location: e.target.value })}
                             value={updateData?.location ? updateData.location : ""}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            className=" border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500"
                             placeholder="Type product name"
                             required
                           />
@@ -595,7 +595,7 @@ export const Profile: React.FC = () => {
                         <div className="col-span-2">
                           <label
                             htmlFor="name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-white"
                           >
                             Date Of Birth
                           </label>
@@ -605,7 +605,7 @@ export const Profile: React.FC = () => {
                             id="name"
                             value={updateData?.dob ? updateData.dob : "Plese Select dob"}
                             onChange={(e) => setUpdateData({ ...updateData, dob: e.target.value })}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            className="border  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500"
                             placeholder="Type product name"
                             required
                           />
@@ -613,7 +613,7 @@ export const Profile: React.FC = () => {
                         <div className="col-span-2">
                           <label
                             htmlFor="description"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-white"
                           >
                             Bio
                           </label>
@@ -623,23 +623,23 @@ export const Profile: React.FC = () => {
                             onChange={(e) => setUpdateData({ ...updateData, bio: e.target.value })}
                             value={updateData?.bio ? updateData.bio : ''}
                             rows={4}
-                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="block p-2.5 w-full text-sm  rounded-lg border  bg-gray-600 border-gray-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Write product description here"
                           />
                         </div>
                         <div className="col-span-2">
                           <div className="w-full max-w-sm mx-auto">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">
+                            <label className="block mb-2 text-sm font-medium text-white" htmlFor="file_input">
                               Profile Image
                             </label>
                             <input
-                              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                              className="block w-full text-sm  border  rounded-lg cursor-pointer  text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
                               id="file_input"
                               type="file"
                               onChange={(e) => setUpdateData({ ...updateData, profileImage: e.target.files?.[0] ?? null })}
                               aria-describedby="file_input_help"
                             />
-                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">
+                            <p className="mt-1 text-sm text-gray-300" id="file_input_help">
                               SVG, PNG, JPG or GIF (MAX. 800x400px).
                             </p>
                           </div>
@@ -647,17 +647,17 @@ export const Profile: React.FC = () => {
 
                         <div className="col-span-2">
                           <div className="w-full max-w-sm mx-auto">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">
+                            <label className="block mb-2 text-sm font-medium text-white" htmlFor="file_input">
                               Cover Image
                             </label>
                             <input
-                              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                              className="block w-full text-sm  border  rounded-lg cursor-pointer text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
                               id="file_input"
                               type="file"
                               onChange={(e) => setUpdateData({ ...updateData, coverImage: e.target.files?.[0] ?? null })}
                               aria-describedby="file_input_help"
                             />
-                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">
+                            <p className="mt-1 text-sm text-gray-300" id="file_input_help">
                               SVG, PNG, JPG or GIF (MAX. 800x400px).
                             </p>
                           </div>
@@ -667,7 +667,7 @@ export const Profile: React.FC = () => {
                       </div>
                       <button
                         type="submit"
-                        className=" mt-3 text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className=" mt-3 text-white inline-flex items-center focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
                       >
                         Submit
                       </button>
@@ -686,17 +686,17 @@ export const Profile: React.FC = () => {
           aria-hidden="true"
         >
           <div className="relative p-4 w-full max-w-md max-h-full">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-              <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+            <div className="relative rounded-lg shadow bg-gray-700">
+              <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
                 <div className="flex items-center space-x-6">
                   <h3
-                    className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer"
+                    className="text-lg font-semibold text-white cursor-pointer"
                     onClick={() => displyFriends("Followers")}
                   >
                     Followers
                   </h3>
                   <h3
-                    className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer"
+                    className="text-lg font-semibold text-white cursor-pointer"
                     onClick={() => displyFriends("Following")}
                   >
                     Following
@@ -706,7 +706,7 @@ export const Profile: React.FC = () => {
                 <button
                   onClick={toggleFriend}
                   type="button"
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  className="text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
                 >
                   <svg
                     className="w-3 h-3"
@@ -727,7 +727,7 @@ export const Profile: React.FC = () => {
                 </button>
               </div>
 
-              <div className="p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+              <div className="p-4 md:p-5 border-b rounded-t border-gray-600">
                 <ul>
                   {friends.map((user) => (
                     <li

@@ -171,7 +171,7 @@ export default function Register() {
             type="submit"
             className={`w-full py-2.5 rounded-lg font-medium text-sm text-white 
         ${isLoading ? "bg-blue-700 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-800"} 
-        focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center justify-center`}
+        focus:ring-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 inline-flex items-center justify-center`}
           >
             {isLoading ? (
               <>

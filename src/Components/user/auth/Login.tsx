@@ -7,7 +7,7 @@ import { RootState } from '../../../redux/Store/store';
 import { login, googlelogin } from '../../../redux/Actions/authActions';
 import { CredentialResponse } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -33,6 +33,11 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if(!email.trim() || !password.trim()){
+      toast.success("Please fill all field")
+    }
+
     try {
       await dispatch(login(email, password, navigate) as any);
     } catch {

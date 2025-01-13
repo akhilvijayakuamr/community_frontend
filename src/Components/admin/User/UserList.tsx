@@ -57,8 +57,8 @@ export const UserList: React.FC = () => {
     return (
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
             <ToastContainer/>
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase font-bold bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-full text-sm text-left text-gray-400">
+                <thead className="text-xs  uppercase font-bold  bg-gray-700 text-gray-400">
                     <tr>
                         <th scope="col" className="px-6 py-3">
                             Full Name
@@ -78,11 +78,11 @@ export const UserList: React.FC = () => {
                     {userList.map((user) => (
                         <tr
                             key={user.id}
-                            className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                            className=" odd:bg-gray-900 even:bg-gray-800 border-b border-gray-700"
                         >
                             <th
                                 scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                className="px-6 py-4 font-medium whitespace-nowrap text-white"
                             >
                                 {user.full_name}
                             </th>

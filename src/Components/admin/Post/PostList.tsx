@@ -134,10 +134,10 @@ export const PostList: React.FC = () => {
                     <>
                         <ToastContainer />
                         <div className="p-6 min-h-screen bg-zinc-900">
-                            <nav className="bg-gray-100 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+                            <nav className=" border-gray-200 px-4 lg:px-6 py-2.5 bg-gray-800">
                                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                                     {/* Logo or Brand Name */}
-                                    <a  className="text-xl font-semibold whitespace-nowrap dark:text-white">
+                                    <a  className="text-xl font-semibold whitespace-nowrap text-white">
                                         Post Lists
                                     </a>
 
@@ -145,7 +145,7 @@ export const PostList: React.FC = () => {
                                     <button
                                         data-collapse-toggle="mobile-menu"
                                         type="button"
-                                        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
+                                        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm  rounded-lg lg:hidden text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2  focus:ring-gray-600"
                                         aria-controls="mobile-menu"
                                         aria-expanded="false"
                                         onClick={() => {
@@ -181,7 +181,7 @@ export const PostList: React.FC = () => {
                                                         e.preventDefault();
                                                         handleSelectList('all_post');
                                                     }}
-                                                    className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent cursor-pointer"
+                                                    className="block py-2 pr-4 pl-3  lg:border-0  lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent cursor-pointer"
                                                 >
                                                     All Posts
                                                 </a>
@@ -192,7 +192,7 @@ export const PostList: React.FC = () => {
                                                         e.preventDefault();
                                                         handleSelectList('delete_post');
                                                     }}
-                                                    className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent cursor-pointer"
+                                                    className="block py-2 pr-4 pl-3  lg:border-0  lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent cursor-pointer"
                                                 >
                                                     Deleted Posts
                                                 </a>
@@ -203,7 +203,7 @@ export const PostList: React.FC = () => {
                                                         e.preventDefault();
                                                         handleSelectList('hide_post');
                                                     }}
-                                                    className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent cursor-pointer"
+                                                    className="block py-2 pr-4 pl-3  lg:border-0  lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent cursor-pointer"
                                                 >
                                                     Hide Posts
                                                 </a>
@@ -214,7 +214,7 @@ export const PostList: React.FC = () => {
                                                         e.preventDefault();
                                                         handleSelectList('report_post');
                                                     }}
-                                                    className="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent cursor-pointer"
+                                                    className="block py-2 pr-4 pl-3 lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent cursor-pointer"
                                                 >
                                                     Reported Posts
                                                 </a>
@@ -229,7 +229,7 @@ export const PostList: React.FC = () => {
 
                                     <div key={card.post_id}
 
-                                        className=" relative group max-w-sm bg-white border border-gray-600 rounded-lg shadow dark:bg-zinc-800 hover:border-gray-100">
+                                        className=" relative group max-w-sm border border-gray-600 rounded-lg shadow bg-zinc-800 hover:border-gray-100">
                                         <div className='flex justify-between'>
                                             <a
                                                 className="flex items-center focus:outline-none pl-3 pt-3">
@@ -303,8 +303,8 @@ export const PostList: React.FC = () => {
                                                 <>
                                                     {
                                                         imgLoading ?
-                                                            <div role="status" className="flex items-center justify-center h-56 max-w-sm bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700">
-                                                                <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                                                            <div role="status" className="flex items-center justify-center h-56 max-w-sm  rounded-lg animate-pulse bg-gray-700">
+                                                                <svg className="w-10 h-10 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                                                                     <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
                                                                     <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z" />
                                                                 </svg>
@@ -323,14 +323,14 @@ export const PostList: React.FC = () => {
                                         </a>
                                         <div className="p-5">
                                             <a href="#">
-                                                <h5 className="mb-1  text-base font-bold tracking-tight text-gray-900 dark:text-white li">
+                                                <h5 className="mb-1  text-base font-bold tracking-tight text-white li">
                                                     {card.title}
                                                 </h5>
                                             </a>
-                                            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
+                                            <p className="mb-3 font-normal text-gray-400 line-clamp-3">
                                                 {card.content}
                                             </p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{card.date}</p>
+                                            <p className="text-sm text-gray-400">{card.date}</p>
 
 
                                             <div className="mt-4 flex items-center justify-between">

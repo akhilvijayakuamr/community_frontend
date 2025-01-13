@@ -16,7 +16,6 @@ export const UserHome: React.FC = () => {
   const [postList, setPostList] = useState<AllPostData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [imgLoading, setImgLoading] = useState<boolean>(false);
-  const userToken: string | null = useSelector((state: RootState) => state.auth.user_token)
   const userId: string = useSelector((state: RootState) => state.auth.userId)
   const navigate = useNavigate()
 
@@ -24,7 +23,6 @@ export const UserHome: React.FC = () => {
   // Set headers for auth
 
   const headers = {
-    Authorization: `Bearer ${userToken}`,
     'Content-type': 'application/json',
   };
 
@@ -119,7 +117,7 @@ export const UserHome: React.FC = () => {
 
                   <div
                     key={card.post_id}
-                    className=" relative group max-w-sm bg-white border border-gray-600 rounded-lg shadow dark:bg-zinc-800 hover:border-gray-100"
+                    className=" relative group max-w-sm border border-gray-600 rounded-lg shadow bg-zinc-800 hover:border-gray-100"
                   >
                     <div className='flex justify-between'>
                       <a
@@ -143,8 +141,8 @@ export const UserHome: React.FC = () => {
                         <>
                           {
                             imgLoading ?
-                              <div role="status" className="flex items-center justify-center h-56 max-w-sm bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700">
-                                <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                              <div role="status" className="flex items-center justify-center h-56 max-w-sm  rounded-lg animate-pulse bg-gray-700">
+                                <svg className="w-10 h-10 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                                   <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
                                   <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z" />
                                 </svg>
@@ -162,18 +160,18 @@ export const UserHome: React.FC = () => {
                     </a>
                     <div className="p-5">
                       <a href="#">
-                        <h5 className="mb-1  text-base font-bold tracking-tight text-gray-900 dark:text-white li">
+                        <h5 className="mb-1  text-base font-bold tracking-tight text-white li">
                           {card.title}
                         </h5>
                       </a>
-                      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-2">
+                      <p className="mb-3 font-normal text-gray-400 line-clamp-2">
                         {card.content}
                       </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{card.date}</p>
+                      <p className="text-sm text-gray-400">{card.date}</p>
                       <div className="mt-4 flex items-center justify-between">
                         {
                           card.like ?
-                            <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" hover:text-blue-700 border hover:border-blue-700 hover:bg-transparent text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500  dark:text-white dark:focus:ring-blue-800 dark:bg-blue-500">
+                            <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" hover:text-blue-700 border hover:border-blue-700 hover:bg-transparent focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-blue-500  text-white focus:ring-blue-800 bg-blue-500">
                               <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                 <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                               </svg>
@@ -184,7 +182,7 @@ export const UserHome: React.FC = () => {
                               <span className="ml-2 text-sm font-medium">{card.like_count}</span>
                             </button>
                             :
-                            <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
+                            <button type="button" onClick={() => handleLikeClick(card.post_id)} className=" border  focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-blue-500 text-blue-500 hover:text-white focus:ring-blue-800 hover:bg-blue-500">
                               <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                 <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                               </svg>
@@ -198,7 +196,7 @@ export const UserHome: React.FC = () => {
                         <a
                           id={card.post_id}
                           onClick={handleGetPost}
-                          className="text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:focus:ring-green-800 dark:hover:bg-green-500"
+                          className="border  focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-green-500 text-green-500 hover:text-white focus:ring-green-800 hover:bg-green-500"
                         >
                           <svg
                             className="w-5 h-5"

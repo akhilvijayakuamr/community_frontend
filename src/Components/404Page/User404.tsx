@@ -1,8 +1,17 @@
 import React from 'react';
 import page404 from '../../assets/images/404.jpeg';
 import { Link } from 'react-router-dom';
+// import { userLogout } from '../../redux/Slice/authSlice';
+// import { UseDispatch } from 'react-redux';
 
 const User404: React.FC = () => {
+
+  // const dispatch
+
+  const handleLogout =()=>{
+
+  }
+
   return (
     <div
       className="w-full h-screen bg-cover bg-center flex items-center justify-center text-white"
@@ -19,6 +28,12 @@ const User404: React.FC = () => {
         >
           Go Back Home
         </Link>
+        <br/>
+        <a onClick={()=>handleLogout()}
+          className="mt-4 inline-block px-6 py-3 bg-blue-600 text-white text-lg rounded hover:bg-blue-700 transition sm:text-base sm:px-4 sm:py-2"
+        >
+          Go Back Login
+        </a>
       </div>
     </div>
   );

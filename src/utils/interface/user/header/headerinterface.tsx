@@ -20,7 +20,9 @@ export interface NotificationInterface {
 export interface callNotification {
     notification: string,
     full_name: string,
-    service: string
+    service: string,
+    my_id:string,
+    caller_id:string,
   }
 
 

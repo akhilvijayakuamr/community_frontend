@@ -49,12 +49,12 @@ apiClient.interceptors.response.use(
         }
       }
     }
-    else if (axios.isAxiosError(error) && error.response?.status === 404) {
-      window.location.href = '/404_user';
-    }
-    else{
-      window.location.href = '/404_user';
-    }
+    // else if (axios.isAxiosError(error) && error.response?.status === 404) {
+    //   window.location.href = '/404_user';
+    // }
+    // else{
+    //   window.location.href = '/404_user';
+    // }
 
     console.log("Error occurred", error);
 

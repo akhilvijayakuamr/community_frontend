@@ -17,6 +17,7 @@ export interface authState {
     user_profile: string,
     recalluser: boolean,
     user_refresh_token: string | null,
-    admin_refresh_token: string | null
+    admin_refresh_token: string | null,
+    is_premium: boolean,
   }
 

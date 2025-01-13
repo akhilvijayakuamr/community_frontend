@@ -350,30 +350,30 @@ export const PostView: React.FC = () => {
                     :
 
                     <div className='flex justify-between min-h-screen  px-4 mx-auto  bg-zinc-900 pt-8'>
-                        <article className='mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert'>
+                        <article className='mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue format-invert'>
                             <header className="mb-4 lg:mb-6 not-format">
                                 <address className="flex items-center mb-6 not-italic">
                                     {
                                         postData.profileimage ?
                                             <a id={postData.user_id} onClick={handleGetProfile}>
-                                                <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
+                                                <div className="inline-flex items-center mr-3 text-sm text-white">
                                                     <img className="mr-4 w-16 h-16 rounded-full" src={postData.profileimage} alt="Jese Leos" />
                                                     <div>
-                                                        <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{postData.full_name}</a>
-                                                        <p className="text-base text-gray-500 dark:text-gray-400">{postData.username}</p>
-                                                        <p className="text-base text-gray-500 dark:text-gray-400"><time title="February 8th, 2022">{new Date(postData.date).toLocaleString()}</time></p>
+                                                        <a href="#" rel="author" className="text-xl font-bold text-white">{postData.full_name}</a>
+                                                        <p className="text-base text-gray-400">{postData.username}</p>
+                                                        <p className="text-base text-gray-400"><time title="February 8th, 2022">{new Date(postData.date).toLocaleString()}</time></p>
                                                     </div>
                                                 </div>
                                             </a>
 
                                             :
                                             <a id={postData.user_id} onClick={handleGetProfile}>
-                                                <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
+                                                <div className="inline-flex items-center mr-3 text-sm text-white">
                                                     <img className="mr-4 w-16 h-16 rounded-full" src="https://via.placeholder.com/40" alt="Jese Leos" />
                                                     <div>
-                                                        <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{postData.full_name}</a>
-                                                        <p className="text-base text-gray-500 dark:text-gray-400">{postData.username}</p>
-                                                        <p className="text-base text-gray-500 dark:text-gray-400"><time title="February 8th, 2022">{postData.date}</time></p>
+                                                        <a href="#" rel="author" className="text-xl font-bold text-white">{postData.full_name}</a>
+                                                        <p className="text-base text-gray-400">{postData.username}</p>
+                                                        <p className="text-base text-gray-400"><time title="February 8th, 2022">{postData.date}</time></p>
                                                     </div>
                                                 </div>
                                             </a>
@@ -475,7 +475,7 @@ export const PostView: React.FC = () => {
 
                                 </address>
                                 <a href={postData.link} target="_blank" rel="noopener noreferrer">
-                                    <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{postData.title}</h1>
+                                    <h1 className="mb-4 text-3xl font-extrabold leading-tight lg:mb-6 lg:text-4xl text-white">{postData.title}</h1>
                                 </a>
                             </header>
                             <p className="lead text-gray-200">{postData.content}</p>
@@ -486,10 +486,10 @@ export const PostView: React.FC = () => {
                             </a>
 
 
-                            <div className="flex items-center mt-5 p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-800">
+                            <div className="flex items-center mt-5 p-6 mb-6 text-base  rounded-lg bg-gray-800">
                                 {
                                     postData.like ?
-                                        <button type="button" onClick={() => handleLikeClick(postData.post_id)} className=" hover:text-blue-700 border hover:border-blue-700 hover:bg-transparent text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500  dark:text-white dark:focus:ring-blue-800 dark:bg-blue-500">
+                                        <button type="button" onClick={() => handleLikeClick(postData.post_id)} className=" hover:text-blue-700 border hover:border-blue-700 hover:bg-transparent  focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-blue-500  text-white focus:ring-blue-800 bg-blue-500">
                                             <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                                 <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                                             </svg>
@@ -498,7 +498,7 @@ export const PostView: React.FC = () => {
                                             <span className="ml-2 text-sm font-medium">{postData.like_count}</span>
                                         </button>
                                         :
-                                        <button type="button" onClick={() => handleLikeClick(postData.post_id)} className=" text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
+                                        <button type="button" onClick={() => handleLikeClick(postData.post_id)} className="  border focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-blue-500 text-blue-500 hover:text-white focus:ring-blue-800 hover:bg-blue-500">
                                             <svg className=" w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                                 <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
                                             </svg>
@@ -510,7 +510,7 @@ export const PostView: React.FC = () => {
 
 
                                 <a
-                                    className="text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:focus:ring-green-800 dark:hover:bg-green-500"
+                                    className=" border  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 border-green-500 text-green-500 hover:text-white focus:ring-green-800 hover:bg-green-500"
                                 >
                                     <svg
                                         className="w-5 h-5"
@@ -528,45 +528,45 @@ export const PostView: React.FC = () => {
 
                             <section className="not-format">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white mt-6">Discussion</h2>
+                                    <h2 className="text-lg lg:text-2xl font-bold text-white mt-6">Discussion</h2>
                                 </div>
                                 <form className="mb-6">
-                                    <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border  dark:bg-gray-800 dark:border-gray-700">
+                                    <div className="py-2 px-4 mb-4 rounded-lg rounded-t-lg border  bg-gray-800 border-gray-700">
                                         <label className="sr-only">Your comment</label>
                                         <textarea id="comment"
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
-                                            className="px-0 w-full text-sm text-white-900 border-0  dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                            className="px-0 w-full text-sm text-white-900 border-0 text-white placeholder-gray-400 bg-gray-800"
                                             placeholder="Write a comment..." required></textarea>
 
                                     </div>
 
                                     <div className="flex items-center justify-end">
-                                        <button type="button" onClick={() => handleCommentClick(postData.post_id)} className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Submit</button>
+                                        <button type="button" onClick={() => handleCommentClick(postData.post_id)} className=" border  focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 focus:ring-blue-800">Submit</button>
                                     </div>
 
                                 </form>
                                 {postData.comments.map((data) =>
-                                    <article key={data.comment_id} className="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900">
+                                    <article key={data.comment_id} className="p-6 mb-6 text-base  rounded-lg bg-gray-900">
                                         <footer className="flex justify-between items-center mb-2">
                                             {
                                                 data.user_profile ?
                                                     <div className="flex items-center">
-                                                        <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white"><img
+                                                        <p className="inline-flex items-center mr-3 font-semibold text-sm text-white"><img
                                                             className="mr-2 w-6 h-6 rounded-full"
                                                             src={data.user_profile}
                                                             alt="Michael Gough" />{data.full_name}</p>
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400"><time
+                                                        <p className="text-sm text-gray-400"><time
                                                             title="February 8th, 2022">{new Date(data.date).toLocaleString()}</time></p>
                                                     </div>
 
                                                     :
                                                     <div className="flex items-center">
-                                                        <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white"><img
+                                                        <p className="inline-flex items-center mr-3 font-semibold text-sm text-white"><img
                                                             className="mr-2 w-6 h-6 rounded-full"
                                                             src="https://via.placeholder.com/40"
                                                             alt="Michael Gough" />{data.full_name}</p>
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400"><time
+                                                        <p className="text-sm text-gray-400"><time
                                                             title="February 8th, 2022">{new Date(data.date).toLocaleString()}</time></p>
                                                     </div>
 
@@ -576,7 +576,7 @@ export const PostView: React.FC = () => {
                                                 data.user_id.toString() == userId ?
                                                     <button
                                                         onClick={() => handleCommentDelete(data.comment_id.toString())}
-                                                        className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:text-gray-400 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                                        className="inline-flex items-center p-2 text-sm font-medium text-center  rounded-lg  focus:ring-4 focus:outline-none  text-gray-400 bg-gray-900 hover:bg-gray-700 focus:ring-gray-600"
                                                         type="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-red-500 foc:text-red-700 cursor-pointer">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m2 0h.01M9 17h6m2 0h.01M9 9h6m2 0h.01M5 6h14M4 6h16M6 6V4a1 1 0 011-1h10a1 1 0 011 1v2M6 6h12M9 6V4m6 0v2" />
@@ -594,7 +594,7 @@ export const PostView: React.FC = () => {
                                         <div className="flex items-center mt-4 space-x-4">
                                             <button type="button"
                                                 onClick={() => handleReplyClick(data.comment_id.toString())}
-                                                className="flex items-center font-medium text-sm text-gray-500 hover:underline dark:text-gray-400">
+                                                className="flex items-center font-medium text-sm  hover:underline text-gray-400">
                                                 <svg className="mr-1.5 w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                                     <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                                                 </svg>
@@ -602,7 +602,7 @@ export const PostView: React.FC = () => {
                                             </button>
                                             <button type="button"
                                                 onClick={() => handleReplyListClick(data.comment_id.toString())}
-                                                className="flex items-center font-medium text-sm text-gray-500 hover:underline dark:text-gray-400">
+                                                className="flex items-center font-medium text-sm  hover:underline text-gray-400">
                                                 <svg className="mr-1.5 w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                                     <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                                                 </svg>
@@ -611,13 +611,13 @@ export const PostView: React.FC = () => {
                                         </div>
                                         {replyInputCommentId === data.comment_id.toString() && (
                                             <form className="mb-6 mt-6">
-                                                <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border dark:bg-gray-800 dark:border-gray-700">
+                                                <div className="py-2 px-4 mb-4  rounded-lg rounded-t-lg border bg-gray-800 border-gray-700">
                                                     <label className="sr-only">Your comment</label>
                                                     <textarea
                                                         id="replay"
                                                         value={replay}
                                                         onChange={(e) => setReplay(e.target.value)}
-                                                        className="px-0 w-full text-sm text-white-900 border-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                                        className="px-0 w-full text-sm text-white-900 border-0 text-white placeholder-gray-400 bg-gray-800"
                                                         placeholder="Write a comment..."
                                                         required
                                                     ></textarea>
@@ -627,7 +627,7 @@ export const PostView: React.FC = () => {
                                                     <button
                                                         type="button"
                                                         onClick={() => handleReplayComment(data.comment_id.toString(), data.full_name, data.user_id.toString())}
-                                                        className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+                                                        className=" border focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 focus:ring-blue-800"
                                                     >
                                                         Submit
                                                     </button>
@@ -640,29 +640,29 @@ export const PostView: React.FC = () => {
                                                 {data.replies && data.replies.length > 0 && (
                                                     <div className="pl-6">
                                                         {data.replies.map((replydata: any) => (
-                                                            <article key={replydata.replay_id} className="p-6 mb-6 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
+                                                            <article key={replydata.replay_id} className="p-6 mb-6 ml-6 lg:ml-12 text-base rounded-lg bg-gray-900">
                                                                 <footer className="flex justify-between items-center mb-2">
                                                                     {replydata.user_profile ?
                                                                         <div className="flex items-center">
-                                                                            <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white">
+                                                                            <p className="inline-flex items-center mr-3 font-semibold text-sm text-white">
 
                                                                                 <img
                                                                                     className="mr-2 w-6 h-6 rounded-full"
                                                                                     src={replydata.user_profile}
                                                                                     alt="Jese Leos" />{replydata.full_name}</p>
-                                                                            <p className="text-sm text-gray-600 dark:text-gray-400"><time
+                                                                            <p className="text-sm text-gray-400"><time
                                                                                 title="February 12th, 2022">{new Date(replydata.date).toLocaleString()}</time></p>
 
                                                                         </div>
                                                                         :
                                                                         <div className="flex items-center">
-                                                                            <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white">
+                                                                            <p className="inline-flex items-center mr-3 font-semibold text-sm text-white">
 
                                                                                 <img
                                                                                     className="mr-2 w-6 h-6 rounded-full"
                                                                                     src="https://via.placeholder.com/40"
                                                                                     alt="Jese Leos" />{replydata.full_name}</p>
-                                                                            <p className="text-sm text-gray-600 dark:text-gray-400"><time
+                                                                            <p className="text-sm text-gray-400"><time
                                                                                 title="February 12th, 2022">{new Date(replydata.date).toLocaleString()}</time></p>
 
                                                                         </div>
@@ -671,7 +671,7 @@ export const PostView: React.FC = () => {
                                                                         replydata.user_id == userId ?
                                                                             <button
                                                                                 onClick={() => handleReplayDelete(replydata.replay_id, data.comment_id)}
-                                                                                className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:text-gray-400 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                                                                className="inline-flex items-center p-2 text-sm font-medium text-center rounded-lg focus:ring-4 focus:outline-none  text-gray-400 bg-gray-900 hover:bg-gray-700 focus:ring-gray-600"
                                                                                 type="button">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-red-500 foc:text-red-700 cursor-pointer">
                                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m2 0h.01M9 17h6m2 0h.01M9 9h6m2 0h.01M5 6h14M4 6h16M6 6V4a1 1 0 011-1h10a1 1 0 011 1v2M6 6h12M9 6V4m6 0v2" />
@@ -690,7 +690,7 @@ export const PostView: React.FC = () => {
                                                                 <div className="flex items-center mt-4 space-x-4">
                                                                     <button type="button"
                                                                         onClick={() => handleReplyReplyClick(replydata.replay_id)}
-                                                                        className="flex items-center font-medium text-sm text-gray-500 hover:underline dark:text-gray-400">
+                                                                        className="flex items-center font-medium text-sm  hover:underline text-gray-400">
                                                                         <svg className="mr-1.5 w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                                                             <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                                                                         </svg>
@@ -699,13 +699,13 @@ export const PostView: React.FC = () => {
                                                                 </div>
                                                                 {replyInputReplyId === replydata.replay_id && (
                                                                     <form className="mb-6 mt-6">
-                                                                        <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border dark:bg-gray-800 dark:border-gray-700">
+                                                                        <div className="py-2 px-4 mb-4  rounded-lg rounded-t-lg border bg-gray-800 border-gray-700">
                                                                             <label className="sr-only">Your comment</label>
                                                                             <textarea
                                                                                 id="replay"
                                                                                 value={replay}
                                                                                 onChange={(e) => setReplay(e.target.value)}
-                                                                                className="px-0 w-full text-sm text-white-900 border-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                                                                className="px-0 w-full text-sm text-white-900 border-0 text-white placeholder-gray-400 bg-gray-800"
                                                                                 placeholder="Write a comment..."
                                                                                 required
                                                                             ></textarea>
@@ -715,7 +715,7 @@ export const PostView: React.FC = () => {
                                                                             <button
                                                                                 type="button"
                                                                                 onClick={() => handleReplayComment(data.comment_id.toString(), replydata.full_name, replydata.user_id)}
-                                                                                className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+                                                                                className="border focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 focus:ring-blue-800"
                                                                             >
                                                                                 Submit
                                                                             </button>
@@ -751,14 +751,14 @@ export const PostView: React.FC = () => {
                     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-6">
                         <div className="w-full max-w-3xl bg-gray-950 rounded-lg shadow-lg mt-20">
 
-                            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
                                 <h3 className="text-2xl font-bold text-white text-center mb-6  mt-10">
                                     Update Post
                                 </h3>
                                 <button
                                     onClick={toggleModel}
                                     type="button"
-                                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    className="text-gray-400 bg-transparent  rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600  hover:text-white"
                                 >
                                     <svg
                                         className="w-3 h-3"
@@ -874,14 +874,14 @@ export const PostView: React.FC = () => {
                     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-6">
                         <div className="w-full max-w-3xl bg-gray-950 rounded-lg shadow-lg mt-20">
 
-                            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
                                 <h3 className="text-2xl font-bold text-white text-center mb-6  mt-10">
                                     Report Post
                                 </h3>
                                 <button
                                     onClick={toggleReportModel}
                                     type="button"
-                                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    className="text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
                                 >
                                     <svg
                                         className="w-3 h-3"
