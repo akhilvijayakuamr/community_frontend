@@ -90,6 +90,7 @@ export const login = (email: string, password: string, navigate: (path: string) 
         dispatch(setError(''))
         try {
             const response = await loginApi(email, password)
+            console.log(response.data)
 
             if (response.status == 200) {
                 dispatch(setUserLogin(response.data))
@@ -126,6 +127,7 @@ export const googlelogin = (email: string, fullname: string, navigate: (path: st
         dispatch(setError(''))
         try {
             const response = await googleApi(email, fullname)
+            console.log(response.data)
 
             if (response.status == 200) {
                 dispatch(setUserLogin(response.data))

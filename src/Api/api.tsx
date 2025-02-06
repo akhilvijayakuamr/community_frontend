@@ -293,3 +293,7 @@ export const adminDashboard = (headers: {[key: string]: string}): Promise<AxiosR
     apiAdmin.get(`${BASE_URL}/users/dashboard/`, {headers});
 
 
+// User profile
+
+export const userProfilePic = (user_id:string, headers: {[key:string]:string}): Promise<AxiosResponse<any>> =>
+    apiClient.post(`${BASE_URL}/users/profile_pic/`, {user_id}, {headers})

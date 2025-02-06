@@ -26,6 +26,10 @@ import Success from "./Components/user/payment/Success"
 import Failed from "./Components/user/payment/Failed"
 // import WebRTC from "./Components/user/video_call/WebRTC"
 import CallReview from "./Components/user/video_call/CallReview"
+import PrivateRoute from "./Routers/Users/PrivateRoute"
+import AdminPrivateRoute from "./Routers/Admin/AdminPrivateRoute"
+import PublicRoute from "./Routers/Users/PublicRoute"
+import AdminPublicRoute from "./Routers/Admin/AdminPublicRoute"
 
 
 
@@ -33,37 +37,50 @@ import CallReview from "./Components/user/video_call/CallReview"
 export default function App() {
   return (
     <div>
-      
+
       <Router>
         <Routes>
-          <Route path='/' element={<Mainpage />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/user_login' element={<Login />} />
-          <Route path='/frogot_password' element={<ForgotPassword />} />
-          <Route path='/otp_register' element={<OtpRegister />} />
-          <Route path='/intrest' element={<Tag />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/userlist" element={<HomeUserList />} />
-          <Route path="/dashboard" element={<AdminDash />} />
-          <Route path="/Home" element={<UserHome />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/forgot" element={<ForgotPassword/>}/>
-          <Route path="/changepassword" element={<SetPassword/>}/>
-          <Route path="/createpost" element={<CreatePost/>}/>
-          <Route path="/viewpost" element={<PostView/>}/>
-          <Route path="/chat" element={<Chat/>}/>
-          <Route path="/chat_list" element={<EmptyChat/>}/>
-          <Route path="/post_list" element={<PostList/>}/>
-          <Route path="/video_call" element={<VideoCall/>}/>
-          <Route path="/404_user" element={<User404/>}/>
-          <Route path="/404_admin" element={<Admin404/>}/>
-          <Route path="/userLoginAgain" element={<LoginAgain/>}/>
-          <Route path="/adminLoginAgain" element={<AdminLoginAgain/>}/>
-          <Route path="/premium" element={<Premium/>}/>
-          <Route path="/payment_success" element={<Success/>}/>
-          <Route path="/payment_failed" element={<Failed/>}/>
-          {/* <Route path="/web_rtc" element={<WebRTC/>}/> */}
-          <Route path ="/call_review" element={<CallReview/>}/>
+
+          <Route element={<PublicRoute />}>
+            <Route path='/' element={<Mainpage />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/user_login' element={<Login />} />
+            <Route path='/frogot_password' element={<ForgotPassword />} />
+            <Route path='/otp_register' element={<OtpRegister />} />
+            <Route path='/intrest' element={<Tag />} />
+            <Route path="/forgot" element={<ForgotPassword />} />
+            <Route path="/changepassword" element={<SetPassword />} />
+          </Route>
+
+          <Route element={<PrivateRoute />}>
+            <Route path="/Home" element={<UserHome />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/createpost" element={<CreatePost />} />
+            <Route path="/viewpost" element={<PostView />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/chat_list" element={<EmptyChat />} />
+            <Route path="/video_call" element={<VideoCall />} />
+            <Route path="/404_user" element={<User404 />} />
+            <Route path="/userLoginAgain" element={<LoginAgain />} />
+            <Route path="/premium" element={<Premium />} />
+            <Route path="/payment_success" element={<Success />} />
+            <Route path="/payment_failed" element={<Failed />} />
+            {/* <Route path="/web_rtc" element={<WebRTC/>}/> */}
+            <Route path="/call_review" element={<CallReview />} />
+          </Route>
+
+          <Route element={<AdminPublicRoute />}>
+            <Route path="/admin" element={<AdminLogin />} />
+          </Route>
+
+          <Route element={<AdminPrivateRoute />}>
+            <Route path="/userlist" element={<HomeUserList />} />
+            <Route path="/dashboard" element={<AdminDash />} />
+            <Route path="/404_admin" element={<Admin404 />} />
+            <Route path="/adminLoginAgain" element={<AdminLoginAgain />} />
+            <Route path="/post_list" element={<PostList />} />
+          </Route>
+
         </Routes>
       </Router>
 

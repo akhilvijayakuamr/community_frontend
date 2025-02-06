@@ -160,7 +160,7 @@ export const UserHome: React.FC = () => {
                     </a>
                     <div className="p-5">
                       <a href="#">
-                        <h5 className="mb-1  text-base font-bold tracking-tight text-white li">
+                        <h5 className="mb-1  text-base font-bold tracking-tight text-white line-clamp-2">
                           {card.title}
                         </h5>
                       </a>

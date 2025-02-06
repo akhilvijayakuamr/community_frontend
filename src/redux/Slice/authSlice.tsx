@@ -133,7 +133,11 @@ const authSlice = createSlice({
 
         recall:(state) =>{
             state.recalluser = !state.recalluser
-        }
+        },
+
+        setProfilePic:(state, action: PayloadAction<any>) =>{
+            state.user_profile = action.payload;
+        },
 
     },
 });
@@ -155,7 +159,8 @@ export const {
     setOutForgot,
     recall,
     resetToken,
-    setPremium
+    setPremium, 
+    setProfilePic
 
 } = authSlice.actions;
 

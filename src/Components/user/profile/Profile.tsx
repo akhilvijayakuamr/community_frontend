@@ -83,7 +83,9 @@ export const Profile: React.FC = () => {
     try {
       const response: AxiosResponse<string> = await UserUpdate(updateData, headers);
       setIsOpen(!isOpen)
-      toast.success(response.data)
+      toast.success(response.data, {
+        position: "top-right"
+    });
       setReloadProfile(prev => !prev);
     } catch {
       toast.error("Updation is not successfull")

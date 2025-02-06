@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userLogout } from '../../../redux/Slice/authSlice';
+import { setProfilePic, userLogout } from '../../../redux/Slice/authSlice';
 import Logo from '../../../assets/images/AssureTech_transparent-.png'
 import { RootState } from '../../../redux/Store/store';
 import { Link } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
-import { getNotification, getPremium, readNotification, searchUser } from '../../../Api/api';
+import { getNotification, getPremium, readNotification, searchUser, userProfilePic } from '../../../Api/api';
 import { recall } from '../../../redux/Slice/authSlice';
 import { callNotification, NotificationInterface } from '../../../utils/interface/user/header/headerinterface';
 import useDebounce from '../../../hooks/useDebounce';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL
 import { setPremium } from '../../../redux/Slice/authSlice';
+
 
 
 export const UserHeader: React.FC = () => {
@@ -57,6 +58,7 @@ export const UserHeader: React.FC = () => {
         if (!Login) {
             navigate('/user_login')
         }
+        getUserProfile()
         getNotifications()
         checkPremium()
 
@@ -78,12 +80,25 @@ export const UserHeader: React.FC = () => {
 
 
 
+    // Get user profile
+
+    const getUserProfile = async () => {
+        try {
+            const response: AxiosResponse<{profile:any}> = await userProfilePic(userId, headers)
+            dispatch(setProfilePic(response.data.profile));
+
+        } catch {
+            console.error("The data is not fetch")
+        }
+    }
+
+
+
     // Check premium
 
     const checkPremium = async () => {
         try {
             const response: AxiosResponse<{ premium: boolean }> = await getPremium(email, headers);
-            console.log("premium", response.data.premium)
             dispatch(setPremium(response.data.premium));
         } catch {
             console.error("The data is not fetched");
@@ -313,7 +328,6 @@ export const UserHeader: React.FC = () => {
 
     return (
         <nav className="bg-gray-950 shadow-lg border border-gray-500 ">
-            <ToastContainer />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
@@ -399,10 +413,10 @@ export const UserHeader: React.FC = () => {
                                         :
 
                                         <img
-                                            className="h-10 w-10 rounded-full"
-                                            src="https://via.placeholder.com/40"
-                                            alt="Profile"
-                                        />
+                                        alt="..."
+                                        src="https://cdn.create.vista.com/api/media/small/251895389/stock-photo-person-symbol-icon-circle"
+                                        className="h-10 w-10 rounded-full border-2 border-gray-400"
+                                      />
                                     }
 
                                 </button>
@@ -615,10 +629,10 @@ export const UserHeader: React.FC = () => {
                                     d="M12 17.5v3.25m0 0H9m3 0h3M12 3a9 9 0 0 1 9 9c0 4.08-2.61 7.44-6.26 8.71A3 3 0 0 1 12 17a3 3 0 0 1-2.74 3.71C5.61 19.44 3 16.08 3 12a9 9 0 0 1 9-9Z"
                                 />
                             </svg>
-                            <h3 className="mb-3 text-xl font-bold text-gray-200">
+                            <h3 className="mb-3 text-xl font-bold text-gray-600">
                                 Unlock Chat & Video Call!
                             </h3>
-                            <p className="mb-5 text-sm text-gray-400">
+                            <p className="mb-5 text-sm text-gray-700">
                                 Enjoy seamless one-on-one **video calls** and real-time **chat** features by upgrading to premium.
                             </p>
                             <button

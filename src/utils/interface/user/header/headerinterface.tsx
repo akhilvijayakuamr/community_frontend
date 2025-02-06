@@ -26,5 +26,14 @@ export interface callNotification {
   }
 
 
+// user profile pic interface
+
+
+export interface callProfilePic {
+  profileImage: any;
+}
+
+
+
 
   
